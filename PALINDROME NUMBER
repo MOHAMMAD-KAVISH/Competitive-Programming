@@ -1,0 +1,25 @@
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+class Solution {
+public:
+    bool isPalindrome(int x) {
+        // Convert the integer to a string
+        string str = to_string(x);
+
+        // Use two pointers to compare characters from left to right and right to left
+        int left = 0, right = str.length() - 1;
+
+        while (left < right) {
+            if (str[left] != str[right]) {
+                return false; // If characters are not equal, it's not a palindrome
+            }
+            left++;
+            right--;
+        }
+
+        return true; // If the loop completes, it's a palindrome
+    }
+};
