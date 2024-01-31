@@ -1,0 +1,22 @@
+class Solution {
+public:
+    bool isValid(string s) {
+        stack<char> bracketsStack;
+        unordered_map<char, char> bracketPairs = {{')', '('}, {']', '['}, {'}', '{'}};
+
+        for (char bracket : s) {
+            if (bracketPairs.find(bracket) != bracketPairs.end()) {
+                // Current character is a closing bracket
+                if (bracketsStack.empty() || bracketsStack.top() != bracketPairs[bracket]) {
+                    return false; // Mismatched closing bracket
+                }
+                bracketsStack.pop();
+            } else {
+                // Current character is an open bracket
+                bracketsStack.push(bracket);
+            }
+        }
+
+        return bracketsStack.empty();
+    }
+};
