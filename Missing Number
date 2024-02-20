@@ -1,0 +1,9 @@
+class Solution {
+public:
+    int missingNumber(vector<int>& nums) {
+        int n = nums.size();
+        int sum = n * (n + 1) / 2; // Sum of all numbers in the range [0, n]
+        int arraySum = accumulate(nums.begin(), nums.end(), 0); // Sum of elements in the array
+        return sum - arraySum; // Missing number
+    }
+};
