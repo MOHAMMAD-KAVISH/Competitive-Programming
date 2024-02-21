@@ -1,0 +1,33 @@
+#include <string>
+
+class Solution {
+public:
+    string countAndSay(int n) {
+        if (n == 1) return "1"; // Base case
+        
+        string prev = "1"; // Initialize with the first term
+        
+        for (int i = 2; i <= n; i++) {
+            string curr;
+            char digit = prev[0];
+            int count = 1;
+            
+            for (int j = 1; j < prev.size(); j++) {
+                if (prev[j] == digit) {
+                    count++;
+                } else {
+                    curr += to_string(count) + digit;
+                    digit = prev[j];
+                    count = 1;
+                }
+            }
+            
+            // Add the count and digit of the last sequence
+            curr += to_string(count) + digit;
+            
+            prev = curr; // Update the previous term
+        }
+        
+        return prev;
+    }
+};
