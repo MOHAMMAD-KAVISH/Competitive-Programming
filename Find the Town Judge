@@ -1,0 +1,27 @@
+#include <vector>
+
+class Solution {
+public:
+    int findJudge(int n, vector<vector<int>>& trust) {
+        // Initialize arrays to store trust count
+        vector<int> trustsGiven(n + 1, 0);
+        vector<int> trustsReceived(n + 1, 0);
+        
+        // Update trust count based on trust relationships
+        for (const auto& t : trust) {
+            int a = t[0];
+            int b = t[1];
+            trustsGiven[a]++;
+            trustsReceived[b]++;
+        }
+        
+        // Find the town judge
+        for (int i = 1; i <= n; ++i) {
+            if (trustsReceived[i] == n - 1 && trustsGiven[i] == 0) {
+                return i;
+            }
+        }
+        
+        return -1;
+    }
+};
