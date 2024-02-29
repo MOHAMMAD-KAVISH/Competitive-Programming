@@ -1,0 +1,44 @@
+#include <queue>
+using namespace std;
+
+class Solution {
+public:
+    bool isEvenOddTree(TreeNode* root) {
+        if (!root) return true; // An empty tree is considered Even-Odd
+        
+        queue<TreeNode*> q;
+        q.push(root);
+        int level = 0; // Start with level index 0
+        
+        while (!q.empty()) {
+            int size = q.size();
+            int prevVal = level % 2 == 0 ? INT_MIN : INT_MAX; // Initialize prevVal based on level
+            
+            // Traverse all nodes in the current level
+            for (int i = 0; i < size; ++i) {
+                TreeNode* node = q.front();
+                q.pop();
+                
+                // Check if node value violates conditions
+                if ((level % 2 == 0 && (node->val % 2 == 0 || node->val <= prevVal)) ||
+                    (level % 2 != 0 && (node->val % 2 != 0 || node->val >= prevVal))) {
+                    return false; // Tree is not Even-Odd
+                }
+                
+                // Update prevVal for the next iteration
+                prevVal = node->val;
+                
+                // Push left child if exists
+                if (node->left) q.push(node->left);
+                
+                // Push right child if exists
+                if (node->right) q.push(node->right);
+            }
+            
+            // Move to the next level
+            ++level;
+        }
+        
+        return true; // Tree is Even-Odd
+    }
+};
