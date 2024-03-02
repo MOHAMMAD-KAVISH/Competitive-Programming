@@ -1,0 +1,11 @@
+vector<int> squares(nums.size());
+        
+        // Square each element and store the result in the squares array
+        for (int i = 0; i < nums.size(); ++i) {
+            squares[i] = nums[i] * nums[i];
+        }
+        
+        // Sort the squares array
+        sort(squares.begin(), squares.end());
+        
+        return squares;
