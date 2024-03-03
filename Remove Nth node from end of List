@@ -1,0 +1,35 @@
+#include <iostream>
+
+struct ListNode {
+    int val;
+    ListNode* next;
+    ListNode(int x) : val(x), next(nullptr) {}
+};
+
+class Solution {
+public:
+    ListNode* removeNthFromEnd(ListNode* head, int n) {
+        ListNode dummy(0);
+        dummy.next = head;
+        ListNode* slow = &dummy;
+        ListNode* fast = &dummy;
+        
+        // Move the fast pointer n steps forward
+        for (int i = 0; i < n; ++i) {
+            fast = fast->next;
+        }
+        
+        // Move both slow and fast pointers together until the fast pointer reaches the end
+        while (fast->next != nullptr) {
+            slow = slow->next;
+            fast = fast->next;
+        }
+        
+        // Remove the nth node by adjusting the next pointer of the node before it
+        ListNode* temp = slow->next;
+        slow->next = slow->next->next;
+        delete temp;
+        
+        return dummy.next;
+    }
+};
