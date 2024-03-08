@@ -1,0 +1,32 @@
+#include <vector>
+#include <unordered_map>
+#include <algorithm>
+
+using namespace std;
+
+class Solution {
+public:
+    int maxFrequencyElements(vector<int>& nums) {
+        // Step 1: Count the frequency of each element
+        unordered_map<int, int> counter;
+        for (int num : nums) {
+            counter[num]++;
+        }
+        
+        // Step 2: Find the maximum frequency
+        int max_freq = 0;
+        for (const auto& entry : counter) {
+            max_freq = max(max_freq, entry.second);
+        }
+        
+        // Step 3: Count the elements with maximum frequency
+        int count_max_freq = 0;
+        for (const auto& entry : counter) {
+            if (entry.second == max_freq) {
+                count_max_freq += entry.second; // Add the frequency of elements with max frequency
+            }
+        }
+        
+        return count_max_freq;
+    }
+};
