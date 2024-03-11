@@ -1,0 +1,25 @@
+#include <string>
+#include <unordered_map>
+#include <algorithm>
+
+class Solution {
+public:
+    string customSortString(string order, string s) {
+        // Step 1: Create a map to store the index of each character in the order string
+        unordered_map<char, int> charIndex;
+        for (int i = 0; i < order.size(); ++i) {
+            charIndex[order[i]] = i;
+        }
+        
+        // Step 2: Define a custom comparison function
+        auto cmp = [&](char a, char b) {
+            return charIndex[a] < charIndex[b];
+        };
+        
+        // Step 3: Sort the characters in the s string using the custom comparison function
+        sort(s.begin(), s.end(), cmp);
+        
+        // Step 4: Return the sorted s string
+        return s;
+    }
+};
