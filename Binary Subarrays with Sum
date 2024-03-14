@@ -1,0 +1,19 @@
+#include <unordered_map>
+#include <vector>
+using namespace std;
+
+int numSubarraysWithSum(vector<int>& nums, int goal) {
+    unordered_map<int, int> prefixSumFreq;
+    int prefixSum = 0, count = 0;
+    
+    // Initialize the frequency of prefix sum 0 as 1
+    prefixSumFreq[0] = 1;
+    
+    for (int num : nums) {
+        prefixSum += num;
+        count += prefixSumFreq[prefixSum - goal];
+        prefixSumFreq[prefixSum]++;
+    }
+    
+    return count;
+}
