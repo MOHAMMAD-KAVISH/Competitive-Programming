@@ -1,0 +1,30 @@
+#include <vector>
+#include <string>
+using namespace std;
+
+class Solution {
+public:
+    vector<string> generateParenthesis(int n) {
+        vector<string> result;
+        generateParentheses("", 0, 0, n, result);
+        return result;
+    }
+    
+    void generateParentheses(string current, int open, int close, int n, vector<string>& result) {
+        // Base case: if the length of the current combination is equal to 2*n
+        if (current.length() == 2 * n) {
+            result.push_back(current);
+            return;
+        }
+        
+        // Recursive case: add open parenthesis if count of open parentheses < n
+        if (open < n) {
+            generateParentheses(current + '(', open + 1, close, n, result);
+        }
+        
+        // Recursive case: add close parenthesis if count of close parentheses < open parentheses
+        if (close < open) {
+            generateParentheses(current + ')', open, close + 1, n, result);
+        }
+    }
+};
