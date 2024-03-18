@@ -1,0 +1,56 @@
+#include <vector>
+#include <queue>
+using namespace std;
+
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+
+class Solution {
+public:
+    ListNode* mergeKLists(vector<ListNode*>& lists) {
+        // Define a comparison function for the priority queue
+        auto comp = [](ListNode* a, ListNode* b) {
+            return a->val > b->val;
+        };
+        
+        // Define a priority queue of ListNode pointers
+        priority_queue<ListNode*, vector<ListNode*>, decltype(comp)> pq(comp);
+        
+        // Push the heads of all lists onto the priority queue
+        for (auto& head : lists) {
+            if (head) pq.push(head);
+        }
+        
+        // Dummy node for the result list
+        ListNode* dummy = new ListNode(-1);
+        ListNode* curr = dummy;
+        
+        // Merge lists until the priority queue is empty
+        while (!pq.empty()) {
+            // Pop the smallest node from the priority queue
+            ListNode* node = pq.top();
+            pq.pop();
+            
+            // Append the popped node to the result list
+            curr->next = node;
+            curr = curr->next;
+            
+            // Push the next node from the same list onto the priority queue
+            if (node->next) pq.push(node->next);
+        }
+        
+        // Disconnect the last node from the result list
+        curr->next = nullptr;
+        
+        // Return the merged list
+        return dummy->next;
+    }
+};
