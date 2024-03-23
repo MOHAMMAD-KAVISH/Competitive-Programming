@@ -1,0 +1,86 @@
+#include <iostream>
+
+struct ListNode {
+    int val;
+    ListNode *next;
+    ListNode(int x) : val(x), next(nullptr) {}
+};
+
+class Solution {
+public:
+    void reorderList(ListNode* head) {
+        if (head == nullptr || head->next == nullptr) {
+            return; // An empty list or a single node doesn't need to be reordered
+        }
+        
+        // Find the middle of the linked list using the two-pointer technique
+        ListNode* slow = head;
+        ListNode* fast = head;
+        while (fast->next != nullptr && fast->next->next != nullptr) {
+            slow = slow->next;
+            fast = fast->next->next;
+        }
+        
+        // Reverse the second half of the linked list
+        ListNode* secondHalf = reverseList(slow->next);
+        slow->next = nullptr; // Break the link between the first half and the second half
+        
+        // Merge the first half and the reversed second half alternatively
+        ListNode* firstHalf = head;
+        while (secondHalf != nullptr) {
+            ListNode* nextNode = firstHalf->next;
+            firstHalf->next = secondHalf;
+            secondHalf = secondHalf->next;
+            firstHalf->next->next = nextNode;
+            firstHalf = nextNode;
+        }
+    }
+    
+    ListNode* reverseList(ListNode* head) {
+        ListNode* prev = nullptr;
+        ListNode* curr = head;
+        
+        while (curr != nullptr) {
+            ListNode* nextNode = curr->next;
+            curr->next = prev;
+            prev = curr;
+            curr = nextNode;
+        }
+        
+        return prev;
+    }
+};
+
+// Function to print the linked list
+void printList(ListNode* head) {
+    ListNode* curr = head;
+    while (curr != nullptr) {
+        std::cout << curr->val << " ";
+        curr = curr->next;
+    }
+    std::cout << std::endl;
+}
+
+int main() {
+    // Example 1
+    ListNode* head1 = new ListNode(1);
+    head1->next = new ListNode(2);
+    head1->next->next = new ListNode(3);
+    head1->next->next->next = new ListNode(4);
+    Solution solution;
+    solution.reorderList(head1);
+    std::cout << "Example 1: ";
+    printList(head1);
+    
+    // Example 2
+    ListNode* head2 = new ListNode(1);
+    head2->next = new ListNode(2);
+    head2->next->next = new ListNode(3);
+    head2->next->next->next = new ListNode(4);
+    head2->next->next->next->next = new ListNode(5);
+    solution.reorderList(head2);
+    std::cout << "Example 2: ";
+    printList(head2);
+    
+    return 0;
+}
