@@ -1,0 +1,26 @@
+#include <vector>
+#include <cmath>
+#include <algorithm>
+using namespace std;
+
+class Solution {
+public:
+    vector<int> findDuplicates(vector<int>& nums) {
+        vector<int> duplicates;
+        
+        // Traverse the array
+        for (int num : nums) {
+            int index = abs(num) - 1; // Adjust index to 0-based
+            
+            // If nums[index] is already negative, num has appeared twice
+            if (nums[index] < 0) {
+                duplicates.push_back(abs(num));
+            } else {
+                // Negate the value at index to mark the presence of num
+                nums[index] = -nums[index];
+            }
+        }
+        
+        return duplicates;
+    }
+};
