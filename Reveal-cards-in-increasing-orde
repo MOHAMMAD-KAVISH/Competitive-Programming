@@ -1,0 +1,32 @@
+#include <vector>
+#include <deque>
+#include <algorithm>
+
+std::vector<int> deckRevealedIncreasing(std::vector<int>& deck) {
+    std::sort(deck.begin(), deck.end()); // Sort the deck in increasing order
+    std::deque<int> dq; // Use deque to simulate the card reveal process
+    for (int i = deck.size() - 1; i >= 0; --i) {
+        if (!dq.empty()) {
+            // Move the last card in the deque to the front
+            int back_card = dq.back();
+            dq.pop_back();
+            dq.push_front(back_card);
+        }
+        dq.push_front(deck[i]); // Put the current card to the front of the deque
+    }
+    // Convert the deque to a vector and return
+    return std::vector<int>(dq.begin(), dq.end());
+}
+
+// Example usage:
+int main() {
+    std::vector<int> deck1 = {17, 13, 11, 2, 3, 5, 7};
+    std::vector<int> result1 = deckRevealedIncreasing(deck1);
+    // Output: [2, 13, 3, 11, 5, 17, 7]
+
+    std::vector<int> deck2 = {1, 1000};
+    std::vector<int> result2 = deckRevealedIncreasing(deck2);
+    // Output: [1, 1000]
+
+    return 0;
+}
