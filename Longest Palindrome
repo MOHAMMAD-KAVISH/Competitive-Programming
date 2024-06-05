@@ -1,0 +1,41 @@
+import java.util.List;
+import java.util.Arrays;
+import java.util.ArrayList;
+
+class Solution {
+    public List<String> commonChars(String[] words) {
+        // Initialize a count array to track the minimum frequency of each letter
+        int[] letterCount = new int[26];
+      
+        // Start by setting each letter's frequency to a high value
+        Arrays.fill(letterCount, Integer.MAX_VALUE);
+      
+        // Iterate over each word in the input array
+        for (String word : words) {
+            // Initialize a temporary array to store the frequency of each letter in the current word
+            int[] currentWordCount = new int[26];
+            // Loop through each character in the current word and increment its frequency
+            for (int i = 0; i < word.length(); ++i) {
+                currentWordCount[word.charAt(i) - 'a']++;
+            }
+            // Update the letterCount array to keep the minimum frequency among the words processed so far
+            for (int i = 0; i < 26; ++i) {
+                letterCount[i] = Math.min(letterCount[i], currentWordCount[i]);
+            }
+        }
+
+        // Prepare the result list
+        List<String> result = new ArrayList<>();
+      
+        // Add the common characters to the result list, based on the letterCount frequencies
+        for (int i = 0; i < 26; ++i) {
+            while (letterCount[i] > 0) {
+                // Append the character to the result list
+                result.add(String.valueOf((char) (i + 'a')));
+                // Decrement the count for this letter
+                letterCount[i]--;
+            }
+        }
+        return result;
+    }
+}
