@@ -1,0 +1,26 @@
+int search5(int arr[],int l,int h,int k){
+	while(l<=h){
+		int mid=(l+h)/2;
+		if(arr[m]==k){
+			return m;
+		}else{
+			if(arr[m]<k){
+				l=m+1;
+			}else{
+				h=m-1;
+			}
+		}
+	}
+	return -1;
+}
+int search4(int arr[],int key){
+	int l=0;
+	int h=1;
+	int val=arr[0];
+	while(val<key){
+		l=h;
+		h=h*2;
+		val=arr[h];
+	}
+	return search5(arr,l,h,key);
+}
