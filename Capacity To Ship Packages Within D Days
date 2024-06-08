@@ -1,0 +1,30 @@
+class Solution {
+private:
+    int ship(const vector<int>&weights,int capacity){
+        int days=1;
+        int cap=0;
+        for(int w:weights){
+            if(cap+w>capacity){
+                days++;
+                cap=w;
+            }else{
+                cap+=w;
+            }
+        }
+            return days;
+};
+public:
+    int shipWithinDays(vector<int>& weights, int days) {
+        int l=ranges::max(weights);
+        int h=accumulate(weights.begin(),weights.end(),0);
+        while(l<h){
+            int m=(l+h)/2;
+            if(ship(weights,m)<=days){
+                h=m;
+            }else{
+                l=m+1;
+            }
+        }
+        return l;
+    }
+};
