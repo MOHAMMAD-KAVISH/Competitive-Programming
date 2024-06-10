@@ -1,0 +1,42 @@
+class Solution {
+public:
+    vector<int> closestPrimes(int left, int right) {
+        const vector<bool>check=sieve(right+1);
+        vector<int>prime;
+        for(int i=left;i<=right;i++){
+            if(check[i]){
+                prime.push_back(i);
+            }
+        }
+
+        if(prime.size()<2){
+            return{-1,-1};
+        }
+        int maxi=INT_MAX;
+        int num1=-1;
+        int num2=-1;
+        for(int i=1;i<prime.size();i++){
+            const int diff=prime[i]-prime[i-1];
+            if(diff<maxi){
+                maxi=diff;
+                num1=prime[i-1];
+                num2=prime[i];
+            }
+        }
+        return{num1,num2};
+    }
+    private:
+    vector<bool> sieve(int n){
+        vector<bool>p(n,true);
+        p[0]=false;
+        p[1]=false;
+        for(int i=2;i<=sqrt(n);i++){
+            if(p[i]==true){
+                for(int j=i*i;j<=n;j+=i){
+                    p[j]=false;
+                }
+            }
+        }
+        return p;
+    }
+};
