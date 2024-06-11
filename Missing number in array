@@ -1,0 +1,19 @@
+class Solution {
+  public:
+
+    // Note that the size of the array is n-1
+    int missingNumber(int n, vector<int>& arr) {
+
+        // Your code goes here
+        int x1=arr[0];
+        int x2=1;
+        for(int i=1;i<arr.size();i++){
+            x1=x1^arr[i];
+        }
+        for(int j=2;j<=arr.size()+1;j++){
+            x2=x2^j;
+        }
+        return(x1^x2);
+        
+    }
+};
