@@ -1,0 +1,46 @@
+class Solution {
+public:
+    // Function to partition the array around the pivot
+    int partition(int arr[], int l, int r) {
+        int pivot = arr[r];
+        int i = l - 1;
+        for (int j = l; j < r; ++j) {
+            if (arr[j] <= pivot) {
+                i++;
+                swap(arr[i], arr[j]);
+            }
+        }
+        swap(arr[i + 1], arr[r]);
+        return i + 1;
+    }
+
+    // Function to perform the Quickselect
+    int quick(int arr[], int l, int r, int k) {
+        if (l <= r) {
+            int pi = partition(arr, l, r);
+            if (pi == k) {
+                return arr[pi];
+            } else if (pi > k) {
+                return quick(arr, l, pi - 1, k);
+            } else {
+                return quick(arr, pi + 1, r, k);
+            }
+        }
+        return -1; // This should never be reached if k is valid
+    }
+
+    // Function to find the k-th smallest element
+    int kthSmallest(int arr[], int l, int r, int k) {
+        return quick(arr, l, r, k - 1); // k - 1 because array is 0-indexed
+    }
+};
+
+// Example usage
+int main() {
+    int n = 6;
+    int arr[] = {7, 10, 4, 3, 20, 15};
+    int k = 3;
+    Solution sol;
+    cout << "The " << k << "th smallest element is " << sol.kthSmallest(arr, 0, n - 1, k) << endl;
+    return 0;
+}
