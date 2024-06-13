@@ -1,0 +1,19 @@
+class Solution {
+  public:
+  const int MOD=1000000007;
+    int padovanSequence(int n) {
+        // code here.
+        
+        if(n==0||n==1||n==2){
+            return 1;
+        }
+        int n0=1,n1=1,n2=1,res;
+        for(int i=3;i<=n;i++){
+            res=(n0+n1)%MOD;
+            n0=n1;
+            n1=n2;
+            n2=res;
+        }
+        return n2;
+    }
+};
