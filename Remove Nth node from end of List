@@ -33,3 +33,27 @@ public:
         return dummy.next;
     }
 };
+
+
+
+class Solution {
+public:
+    ListNode* removeNthFromEnd(ListNode* head, int n) {
+        int l=length(head);
+        int n1=l-n+1;
+        ListNode* prev=NULL;
+        ListNode* temp=head;
+        for(int i=1;i<n1;i++){
+            prev=temp;
+            temp=temp->next;
+        }
+        if(prev==NULL){
+            head=head->next;
+            return head;
+        }else{
+            prev->next=prev->next->next;
+            return head;
+        }
+    }
+};
+
