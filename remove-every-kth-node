@@ -1,0 +1,25 @@
+class Solution {
+    public:
+    Node* deleteK(Node *head,int K){
+      //Your code here
+      if(K<=0||head==NULL){
+          return head;
+      }
+      if(K==1){
+          return nullptr;
+      }
+      Node* curr=head;
+      Node* prev=NULL;
+      int c=1;
+      while(curr!=NULL){
+          if(c%K==0){
+              prev->next=curr->next;
+          }else{
+              prev=curr;
+          }
+          curr=curr->next;
+          c++;
+      }
+      return head;
+    }
+};
