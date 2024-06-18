@@ -1,0 +1,20 @@
+class Solution {
+public:
+    int maxProfitAssignment(vector<int>& difficulty, vector<int>& profit, vector<int>& worker) {
+        int ans=0;
+        vector<pair<int,int>>jobs;
+        for(int i=0;i<difficulty.size();i++){
+            jobs.emplace_back(difficulty[i],profit[i]);
+        }
+        ranges::sort(jobs);
+        ranges::sort(worker);
+        int maxi=0;
+        for(const int w:worker){
+            for(int i=0;i<jobs.size()&&w>=jobs[i].first;i++){
+                maxi=max(maxi,jobs[i].second);   
+            }
+            ans+=maxi;
+        }
+        return ans;
+    }
+};
