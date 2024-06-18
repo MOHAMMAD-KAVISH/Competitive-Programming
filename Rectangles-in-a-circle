@@ -1,0 +1,17 @@
+class Solution {
+  public:
+    int rectanglesInCircle(int r) {
+        int count = 0;
+        int maxLength = 2 * r;
+
+        for (int a = 1; a <= maxLength; ++a) {
+            for (int b = 1; b <= maxLength; ++b) {
+                if (a * a + b * b <= 4 * r * r) {
+                    ++count;
+                }
+            }
+        }
+
+        return count;
+    }
+};
