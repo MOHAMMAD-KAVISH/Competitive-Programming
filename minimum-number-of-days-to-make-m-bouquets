@@ -1,0 +1,49 @@
+class Solution {
+public:
+    bool canMakeBouquets(vector<int>& bloomDay, int m, int k, int day) {
+        int n = bloomDay.size();
+        int bouquets = 0;
+        int flowers = 0;
+        
+        for (int i = 0; i < n; ++i) {
+            if (bloomDay[i] <= day) {
+                flowers++;
+                if (flowers == k) {
+                    bouquets++;
+                    flowers = 0;
+                    if (bouquets >= m) {
+                        return true;
+                    }
+                }
+            } else {
+                flowers = 0;
+            }
+        }
+        
+        return bouquets >= m;
+    }
+    
+    int minDays(vector<int>& bloomDay, int m, int k) {
+        int n = bloomDay.size();
+        long long totalFlowersNeeded = (long long)m * k;
+        if (totalFlowersNeeded > n) {
+            return -1;  // Not enough flowers to form m bouquets
+        }
+        
+        int low = *min_element(bloomDay.begin(), bloomDay.end());
+        int high = *max_element(bloomDay.begin(), bloomDay.end());
+        int answer = -1;
+        
+        while (low <= high) {
+            int mid = low + (high - low) / 2;
+            if (canMakeBouquets(bloomDay, m, k, mid)) {
+                answer = mid;
+                high = mid - 1;
+            } else {
+                low = mid + 1;
+            }
+        }
+        
+        return answer;
+    }
+};
