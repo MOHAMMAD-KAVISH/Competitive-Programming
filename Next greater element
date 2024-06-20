@@ -1,0 +1,18 @@
+class Solution {
+  public:
+    vector<long long> nextLargerElement(vector<long long> &arr, int n){
+        // Your code here
+        vector<long long>res(n,-1);
+        stack<int>s;
+        for(int i=0;i<2*n;i++){
+            int cidx=i%n;
+            while(!s.empty()&&arr[cidx]>arr[s.top()]){
+                res[s.top()]=arr[cidx];
+                s.pop();
+            }
+            if(i<n)
+            s.push(cidx);
+        }
+        return res;
+    }
+};
