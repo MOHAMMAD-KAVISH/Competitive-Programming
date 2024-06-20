@@ -32,6 +32,76 @@ public:
       stack.push(i);
     }
 
+
+
+
+
+
+
+
+class Solution {
+public:
+    int maximalRectangle(vector<vector<char>>& matrix) {
+    if (matrix.empty())
+      return 0;
+
+    int ans = 0;
+    vector<int> hist(matrix[0].size());
+
+    for (const vector<char>& row : matrix) {
+      for (int i = 0; i < row.size(); ++i)
+        hist[i] = row[i] == '0' ? 0 : hist[i] + 1;
+      ans = max(ans, largestRectangleArea(hist));
+    }
+
+    return ans;
+    }
+ 
+    vector<int> nsl(vector<int>& heights) {
+        vector<int> res(heights.size(), -1);
+        stack<int> s;
+        for (int i = 0; i < heights.size(); ++i) {
+            while (!s.empty() && heights[i] <= heights[s.top()]) {
+                s.pop();
+            }
+            if (!s.empty()) {
+                res[i] = s.top();
+            }
+            s.push(i);
+        }
+        return res;
+    }
+
+    vector<int> nsr(vector<int>& heights) {
+        int n = heights.size();
+        vector<int> res(n, n);
+        stack<int> s;
+        for (int i = n - 1; i >= 0; --i) {
+            while (!s.empty() && heights[i] <= heights[s.top()]) {
+                s.pop();
+            }
+            if (!s.empty()) {
+                res[i] = s.top();
+            }
+            s.push(i);
+        }
+        return res;
+    }
+
+    int largestRectangleArea(vector<int>& heights) {
+        vector<int> left = nsl(heights);
+        vector<int> right = nsr(heights);
+        int maxArea = 0;
+        for (int i = 0; i < heights.size(); ++i) {
+            int width = right[i] - left[i] - 1;
+            int area = heights[i] * width;
+            maxArea = max(maxArea, area);
+        }
+        return maxArea;
+    }
+};
+
+
     return ans;
     }
 };
