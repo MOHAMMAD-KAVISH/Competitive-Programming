@@ -1,0 +1,46 @@
+#include <iostream>
+#include <sstream>
+#include <string>
+
+using namespace std;
+
+class Solution {
+public:
+    string compareFrac(string str) {
+        // Variables to store the numerators and denominators
+        int a, b, c, d;
+        char s1, s2, comma;
+        
+        // Use stringstream to parse the input string
+        stringstream ss(str);
+        ss >> a >> s1 >> b >> comma >> c >> s2 >> d;
+        
+        // Calculate cross products
+        int cp1 = a * d;
+        int cp2 = b * c;
+        
+        // Compare cross products
+        if (cp1 > cp2) {
+            return to_string(a) + "/" + to_string(b);
+        } else if (cp1 < cp2) {
+            return to_string(c) + "/" + to_string(d);
+        } else {
+            return "equal";
+        }
+    }
+};
+
+int main() {
+    Solution sol;
+    
+    // Example usage
+    string str1 = "5/6, 11/45";
+    string str2 = "8/1, 8/1";
+    string str3 = "10/17, 9/10";
+    
+    cout << "Comparison result for \"" << str1 << "\": " << sol.compareFrac(str1) << endl;
+    cout << "Comparison result for \"" << str2 << "\": " << sol.compareFrac(str2) << endl;
+    cout << "Comparison result for \"" << str3 << "\": " << sol.compareFrac(str3) << endl;
+    
+    return 0;
+}
