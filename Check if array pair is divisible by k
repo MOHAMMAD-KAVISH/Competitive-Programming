@@ -1,0 +1,31 @@
+class Solution {
+public:
+    bool canArrange(vector<int>& arr, int k) {
+        unordered_map<int,int>mp;
+        for(int i:arr){
+            int rem=((i%k)+k)%k;
+            mp[rem]++;
+        }
+        for(auto it:mp){
+            int re=it.first;
+            int cou=it.second;
+            if(re==0){
+                if(cou%2!=0){
+                    return false;
+                }
+            }else{
+                int com=k-re;
+                if(com==re){
+                    if(cou%2!=0){
+                        return false;
+                    }
+                }else{
+                    if(mp[re]!=mp[com]){
+                        return false;
+                    }
+                }
+            }
+        }
+    return true;
+    }
+};
