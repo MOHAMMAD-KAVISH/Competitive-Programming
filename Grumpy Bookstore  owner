@@ -1,0 +1,40 @@
+class Solution {
+public:
+    int maxSatisfied(vector<int>& customers, vector<int>& grumpy, int minutes) {
+        int n = customers.size();
+        int totalSatisfaction = 0;
+        
+        // Calculate initial satisfaction without using the technique
+        for (int i = 0; i < n; ++i) {
+            if (grumpy[i] == 0) {
+                totalSatisfaction += customers[i];
+            }
+        }
+        
+        // Calculate the additional satisfaction using sliding window
+        int maxAdditionalSatisfaction = 0;
+        int currentAdditionalSatisfaction = 0;
+        
+        // Initial window calculation
+        for (int i = 0; i < minutes; ++i) {
+            if (grumpy[i] == 1) {
+                currentAdditionalSatisfaction += customers[i];
+            }
+        }
+        maxAdditionalSatisfaction = currentAdditionalSatisfaction;
+        
+        // Sliding the window across the rest of the days
+        for (int i = minutes; i < n; ++i) {
+            if (grumpy[i] == 1) {
+                currentAdditionalSatisfaction += customers[i];
+            }
+            if (grumpy[i - minutes] == 1) {
+                currentAdditionalSatisfaction -= customers[i - minutes];
+            }
+            maxAdditionalSatisfaction = max(maxAdditionalSatisfaction, currentAdditionalSatisfaction);
+        }
+        
+        // The result is the sum of initial satisfaction and the best additional satisfaction
+        return totalSatisfaction + maxAdditionalSatisfaction;
+    }
+};
