@@ -1,0 +1,22 @@
+class Solution {
+public:
+    int jump(vector<int>& nums) {
+        int n=nums.size();
+        if(n==1) return 0;
+        if(nums[0]==0) return -1;
+        int j=0;
+        int a=0;
+        int end=0;
+        for(int i=0;i<n-1;i++){
+            a=max(a,i+nums[i]);
+            if(i==end){
+                j++;
+                end=a;
+                if(end>=n-1){
+                    return j;
+                }
+            }
+        }
+        return -1;
+    }
+};
