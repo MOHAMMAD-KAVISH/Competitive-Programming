@@ -1,0 +1,56 @@
+#include <iostream>
+#include <sstream>
+#include <vector>
+#include <string>
+#include <climits>
+
+using namespace std;
+
+bool containsNine(const string& number) {
+    for (char ch : number) {
+        if (ch == '9') {
+            return true;
+        }
+    }
+    return false;
+}
+
+long long findLargestNumberWithoutNine(const string& sentence) {
+    istringstream ss(sentence);
+    string word;
+    long long largestNumber = -1;
+    
+    while (ss >> word) {
+        // Check if the word is a number
+        bool isNumber = true;
+        for (char ch : word) {
+            if (!isdigit(ch)) {
+                isNumber = false;
+                break;
+            }
+        }
+
+        if (isNumber) {
+            // Check if the number contains '9'
+            if (!containsNine(word)) {
+                // Convert to long long
+                long long number = stoll(word);
+                if (number > largestNumber) {
+                    largestNumber = number;
+                }
+            }
+        }
+    }
+
+    return largestNumber;
+}
+
+int main() {
+    string sentence1 = "This is alpha 5057 and 97";
+    string sentence2 = "Another input 9007";
+    
+    cout << "Output for sentence1: " << findLargestNumberWithoutNine(sentence1) << endl;  // Output: 5057
+    cout << "Output for sentence2: " << findLargestNumberWithoutNine(sentence2) << endl;  // Output: -1
+    
+    return 0;
+}
