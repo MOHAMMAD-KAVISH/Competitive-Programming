@@ -1,0 +1,23 @@
+class Solution {
+  public:
+    // Function to find equilibrium point in the array.
+    // arr: input array
+    // n: size of array
+    int equilibriumPoint(long long arr[], int n) {
+
+        // Your code here
+        int ts=0;
+        for(int i=0;i<n;i++){
+            ts+=arr[i];
+        }
+        int ls=0;
+        for(int i=0;i<n;i++){
+            ts-=arr[i];
+            if(ls==ts){
+                return i+1;
+            }
+            ls+=arr[i];
+        }
+        return -1;
+    }
+};
