@@ -1,0 +1,22 @@
+class Solution {
+  public:
+
+    vector<int> bracketNumbers(string str) {
+        // Your code goes here
+        string temp=str;
+        vector<int>res;
+        stack<int>ans;
+        int c=0;
+        for(int i=0;i<temp.size();i++){
+            if(temp[i]=='('){
+                c++;
+                res.push_back(c);
+                ans.push(c);
+            }else if(temp[i]==')'){
+                res.push_back(ans.top());
+                ans.pop();
+            }
+        }
+        return res;
+    }
+};
