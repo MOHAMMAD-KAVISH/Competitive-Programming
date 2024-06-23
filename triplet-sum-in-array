@@ -1,0 +1,64 @@
+bool find3Numbers(int A[], int n, int X)
+    {
+        //Your Code Here
+        for(int i=0;i<n-2;i++){
+            int com=X-A[i];
+            unordered_map<int,bool>mp;
+            for(int j=i+1;j<n;j++){
+                if(mp.find(com-A[j])!=mp.end()){
+                    return true;
+                }
+                mp[A[j]]=true;
+            }
+        }
+        return false;
+    }
+
+///////////////////////////////////////////////////////////////////////////2ND APPROACH////////////////////////////////////////////////////////////////////////////////////////
+
+#include <iostream>
+#include <algorithm>
+using namespace std;
+
+bool find3Numbers(int arr[], int n, int X) {
+    // Step 1: Sort the array
+    sort(arr, arr + n);
+    
+    // Step 2: Iterate through each element and use two pointers to find the triplet
+    for (int i = 0; i < n - 2; i++) {
+        int left = i + 1; // Start pointer for the second element
+        int right = n - 1; // End pointer for the third element
+        
+        while (left < right) {
+            int sum = arr[i] + arr[left] + arr[right];
+            
+            // Check if the sum of the triplet equals X
+            if (sum == X) {
+                return true;
+            } else if (sum < X) {
+                // Move the left pointer to the right to increase the sum
+                left++;
+            } else {
+                // Move the right pointer to the left to decrease the sum
+                right--;
+            }
+        }
+    }
+    
+    // If no triplet is found that sums up to X
+    return false;
+}
+
+int main() {
+    int n = 6;
+    int X = 13;
+    int arr[] = {1, 4, 45, 6, 10, 8};
+    
+    if (find3Numbers(arr, n, X)) {
+        cout << 1 << endl;
+    } else {
+        cout << 0 << endl;
+    }
+    
+    return 0;
+}
