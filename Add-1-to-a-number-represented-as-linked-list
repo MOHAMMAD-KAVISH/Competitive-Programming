@@ -1,0 +1,37 @@
+class Solution
+{
+    public:
+    Node* reverse(Node* head){
+        Node* curr=head;
+        Node* prev=NULL;
+        Node* next=NULL;
+        while(curr!=NULL){
+            next=curr->next;
+            curr->next=prev;
+            prev=curr;
+            curr=next;
+        }
+        return prev;
+    }
+    Node* addOne(Node *head) 
+    {
+        // Your Code here
+        // return head of list after adding one
+        head=reverse(head);
+        int c=1;
+        Node* curr=head;
+        Node* prev=NULL;
+        while(curr!=NULL){
+            int sum=curr->data+c;
+            c=sum/10;
+            curr->data=sum%10;
+            prev=curr;
+            curr=curr->next;
+        }
+        if(c){
+            prev->next=new Node(c);
+        }
+        head=reverse(head);
+        return head;
+    }
+};
