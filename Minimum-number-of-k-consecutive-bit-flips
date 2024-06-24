@@ -1,0 +1,29 @@
+#include <vector>
+using namespace std;
+
+int minKBitFlips(vector<int>& nums, int k) {
+    int n = nums.size();
+    vector<int> flip(n, 0);  // auxiliary array to mark flips
+    int flip_count = 0;  // current number of active flips
+    int result = 0;  // number of flips performed
+
+    for (int i = 0; i < n; ++i) {
+        // If we have gone past k elements, remove the effect of the flip at (i - k)
+        if (i >= k) {
+            flip_count -= flip[i - k];
+        }
+        
+        // If the current element is 0 after considering all flips, we need to flip
+        if ((nums[i] + flip_count) % 2 == 0) {
+            if (i + k > n) {  // not enough elements to flip
+                return -1;
+            }
+            // Perform a flip at this position
+            flip[i] = 1;  // mark this position as flipped
+            flip_count += 1;  // increase flip count
+            result += 1;
+        }
+    }
+    
+    return result;
+}
