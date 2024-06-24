@@ -1,0 +1,20 @@
+#include <iostream>
+#include <algorithm>
+using namespace std;
+
+class Solution {
+public:
+    long long countCells(long long n, long long q) {
+        long long start = max(1LL, q - n);
+        long long end = min(n, q - 1);
+        if (start > end) return 0;
+        return end - start + 1;
+    }
+};
+
+int main() {
+    Solution sol;
+    cout << sol.countCells(4, 7) << endl; // Output: 2
+    cout << sol.countCells(5, 4) << endl; // Output: 3
+    return 0;
+}
