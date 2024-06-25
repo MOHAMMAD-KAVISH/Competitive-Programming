@@ -1,0 +1,16 @@
+class Solution {
+  public:
+    vector<vector<int>> rotateMatrix(int k, vector<vector<int>> mat) {
+        // code here
+        int r=mat.size();
+        int c=mat[0].size();
+        k=k%c;
+        vector<vector<int>>res(r,vector<int>(c));
+        for(int i=0;i<r;i++){
+            for(int j=0;j<c;j++){
+                res[i][j]=mat[i][(j+k)%c];
+            }
+        }
+        return res;
+    }
+};
