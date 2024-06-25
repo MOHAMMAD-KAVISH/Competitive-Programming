@@ -1,0 +1,62 @@
+class Solution {
+public:
+    void rotate(vector<int>& nums, int k) {
+        int n=nums.size();
+        k=k%n;
+       reverse(nums.begin(),nums.end());
+       reverse(nums.begin(),nums.begin()+k);
+       reverse(nums.begin()+k,nums.end());
+    }
+};
+
+
+
+#include <vector>
+#include <iostream>
+
+class Solution {
+public:
+    void rotate(std::vector<int>& nums, int k) {
+        int n = nums.size();
+        k = k % n;  // Normalize k if it's greater than the size of the array
+        if (k == 0) return;
+
+        std::vector<int> temp(k);
+        
+        // Step 1: Store the last k elements in a temporary array
+        for (int i = 0; i < k; ++i) {
+            temp[i] = nums[n - k + i];
+        }
+
+        // Step 2: Shift the first n - k elements to the right
+        for (int i = n - k - 1; i >= 0; --i) {
+            nums[i + k] = nums[i];
+        }
+
+        // Step 3: Copy the elements from the temporary array to the start of the original array
+        for (int i = 0; i < k; ++i) {
+            nums[i] = temp[i];
+        }
+    }
+};
+
+int main() {
+    Solution sol;
+    std::vector<int> nums1 = {1, 2, 3, 4, 5, 6, 7};
+    int k1 = 3;
+    sol.rotate(nums1, k1);
+    for (int num : nums1) {
+        std::cout << num << " ";
+    }
+    std::cout << std::endl;
+
+    std::vector<int> nums2 = {-1, -100, 3, 99};
+    int k2 = 2;
+    sol.rotate(nums2, k2);
+    for (int num : nums2) {
+        std::cout << num << " ";
+    }
+    std::cout << std::endl;
+
+    return 0;
+}
