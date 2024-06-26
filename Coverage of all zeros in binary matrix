@@ -1,0 +1,28 @@
+class Solution {
+  public:
+    int findCoverage(vector<vector<int>>& matrix) {
+        // Code here
+        int r=matrix.size();
+        int c=matrix[0].size();
+        int sum=0;
+        for(int i=0;i<r;i++){
+            for(int j=0;j<c;j++){
+                if(matrix[i][j]==0){
+                    if(j>0&&matrix[i][j-1]==1){
+                        sum++;
+                    }
+                    if(j<c-1&&matrix[i][j+1]==1){
+                        sum++;
+                    }
+                    if(i>0&&matrix[i-1][j]==1){
+                        sum++;
+                    }
+                    if(i<r-1&&matrix[i+1][j]==1){
+                        sum++;
+                    }
+                }
+            }
+        }
+        return sum;
+    }
+};
