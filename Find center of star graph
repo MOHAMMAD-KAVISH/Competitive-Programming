@@ -1,0 +1,16 @@
+class Solution {
+public:
+    int findCenter(vector<vector<int>>& edges) {
+        unordered_map<int,int>count;
+        for(auto it:edges){
+            count[it[0]]++;
+            count[it[1]]++;
+        }
+        for(const auto& [node,fre]:count){
+            if(fre==edges.size()){
+                return node;
+            }
+        }
+        return -1;
+    }
+};
