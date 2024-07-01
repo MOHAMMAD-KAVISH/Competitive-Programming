@@ -1,0 +1,29 @@
+class Solution {
+  public:
+    void convert(Node *head, TreeNode *&root) {
+        if(head==NULL){
+            root=NULL;
+            return;
+        }
+       root=new TreeNode(head->data);
+       head=head->next;
+       queue<TreeNode*>q;
+       q.push(root);
+       while(head){
+           TreeNode* parent=q.front();
+           q.pop();
+           
+           TreeNode* leftc=new TreeNode(head->data);
+           parent->left=leftc;
+           q.push(leftc);
+           head=head->next;
+           
+           if(head){
+               TreeNode* rightc=new TreeNode(head->data);
+               parent->right=rightc;
+               q.push(rightc);
+               head=head->next;
+           }
+       }
+    }
+};
