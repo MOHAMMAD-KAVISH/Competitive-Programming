@@ -1,0 +1,24 @@
+class Solution
+{
+	public:
+	    void permute(string s,int l,int r,set<string>&per){
+	        if(l==r){
+	            per.insert(s);
+	        }else{
+	            for(int i=l;i<=r;i++){
+	                swap(s[l],s[i]);
+	                permute(s,l+1,r,per);
+	                swap(s[l],s[i]);
+	            }
+	        }
+	    }
+		vector<string>find_permutation(string S)
+		{
+		    // Code here there
+		    set<string>per;
+		    permute(S,0,S.length()-1,per);
+		    vector<string>res(per.begin(),per.end());
+		    sort(res.begin(),res.end());
+		    return res;
+		}
+};
