@@ -1,0 +1,22 @@
+class Solution {
+  public:
+    bool compute(Node* head) {
+        // Your code goes here
+        string combine;
+        Node* curr=head;
+        while(curr!=NULL){
+            combine+=curr->data;
+            curr=curr->next;
+        }
+        int i=0;
+        int j=combine.length()-1;
+        while(i<j){
+            if(combine[i]!=combine[j]){
+                return false;
+            }
+            i++;
+            j--;
+        }
+        return true;
+    }
+};
