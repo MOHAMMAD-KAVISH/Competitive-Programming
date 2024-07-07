@@ -1,0 +1,26 @@
+class Solution {
+  public:
+    // Function should return all the ancestor of the target node
+    bool findAncestors(Node* root, int target, vector<int>& ancestors) {
+    // Base case
+    if (root == NULL) return false;
+    
+    // If the target node is found
+    if (root->data == target) return true;
+    
+    // If target is present in the left or right subtree of this node
+    if (findAncestors(root->left, target, ancestors) || findAncestors(root->right, target, ancestors)) {
+        ancestors.push_back(root->data);
+        return true;
+    }
+    
+    // If target is not present in subtree rooted with this node
+    return false;
+}
+    vector<int> Ancestors(struct Node *root, int target) {
+        // Code here
+        vector<int> ancestors;
+    findAncestors(root, target, ancestors);
+    return ancestors;
+    }
+};
