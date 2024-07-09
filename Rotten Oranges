@@ -1,0 +1,49 @@
+class Solution 
+{
+    public:
+    //Function to find minimum time required to rot all oranges. 
+    int orangesRotting(vector<vector<int>>& grid) {
+        // Code here
+        int r=grid.size();
+        int c=grid[0].size();
+        queue<pair<int,int>>q;
+        int count=0;
+        int t=0;
+        vector<pair<int,int>>direction{{-1,0},{1,0},{0,-1},{0,1}};
+        for(int i=0;i<r;i++){
+            for(int j=0;j<c;j++){
+                if(grid[i][j]==2){
+                    q.push({i,j});
+                }else if(grid[i][j]==1){
+                    count++;
+                }
+            }
+        }
+        if(count==0) return 0;
+        while(!q.empty()){
+            int size=q.size();
+            bool f=false;
+            for(int i=0;i<size;i++){
+               pair<int,int> curr =q.front();
+                q.pop();
+                int x=curr.first;
+                int y=curr.second;
+                for(auto dir:direction){
+                    int dx=dir.first;
+                    int dy=dir.second;
+                    int nx=x+dx;
+                    int ny=y+dy;
+                    
+                    if(nx>=0&&nx<r&&ny>=0&&ny<c&&grid[nx][ny]==1){
+                        grid[nx][ny]=2;
+                        q.push({nx,ny});
+                        count--;
+                        f=true;
+                    }
+                }
+            }
+            if(f) t++;
+        }
+        return count==0?t:-1;
+    }
+};
