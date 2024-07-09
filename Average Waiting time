@@ -1,0 +1,18 @@
+class Solution {
+public:
+    double averageWaitingTime(vector<vector<int>>& customers) {
+        long long ctime=0;
+        long long wtime=0;
+        for(const auto& cus:customers){
+            int arrtime=cus[0];
+            int comtime=cus[1];
+            if(ctime<arrtime){
+                ctime=arrtime;
+            }
+            ctime+=comtime;
+            wtime+=(ctime-arrtime);
+
+        }
+        return static_cast<double>(wtime)/customers.size();
+    }
+};
