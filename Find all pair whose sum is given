@@ -1,0 +1,20 @@
+class Solution {
+  public:
+    // Function to find all pairs with given sum.
+    vector<pair<int, int>> allPairs(int x, vector<int> &arr1, vector<int> &arr2) {
+        // Code here
+        vector<pair<int,int>>res;
+        unordered_set<int>ele;
+        for(int n:arr2){
+            ele.insert(n);
+        }
+        for(int a:arr1){
+            int com=x-a;
+            if(ele.find(com)!=ele.end()){
+                res.push_back({a,com});
+            }
+        }
+        sort(res.begin(),res.end());
+        return res;
+    }
+};
