@@ -1,0 +1,18 @@
+class Solution {
+  public:
+
+    string longestCommonPrefix(int n, string arr[]) {
+        // your code here
+        if(n==0) return 0;
+        string prefix=arr[0];
+        for(int i=1;i<n;i++){
+            while(arr[i].find(prefix)!=0){
+                prefix=prefix.substr(0,prefix.length()-1);
+                if(prefix.empty()){
+                    return "-1";
+                }
+            }
+        }
+        return prefix;
+    }
+};
