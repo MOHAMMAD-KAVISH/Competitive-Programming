@@ -1,0 +1,44 @@
+#include <cmath>
+#include <cstdio>
+#include <vector>
+#include <iostream>
+#include <algorithm>
+#include<stack>
+using namespace std;
+string makelucky(string s,string u){
+    int n=s.length();
+    int m=u.length();
+    stack<char>st;
+    for(int i=0;i<n;i++){
+        st.push(s[i]);
+        if(st.size()>=m){
+            string temp="";
+            for(int j=0;j<m;j++){
+                temp+=st.top();
+                st.pop();
+            }
+            reverse(temp.begin(),temp.end());
+            if(temp!=u){
+                for(char c:temp){
+                    st.push(c);
+                }
+            }
+        }
+    }
+    string res="";
+    while(!st.empty()){
+        res+=st.top();
+        st.pop();
+    }
+    reverse(res.begin(),res.end());
+    return res;
+}
+
+int main() {
+    /* Enter your code here. Read input from STDIN. Print output to STDOUT */   
+    string s,u;
+    cin>>s>>u;
+    string lucky=makelucky(s,u);
+    cout<<lucky<<endl;
+    return 0;
+}
