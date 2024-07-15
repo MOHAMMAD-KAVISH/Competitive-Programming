@@ -1,0 +1,70 @@
+#include <iostream>
+#include <unordered_map>
+#include <unordered_set>
+#include <vector>
+using namespace std;
+
+struct TreeNode {
+    int val;
+    TreeNode* left;
+    TreeNode* right;
+    TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+};
+
+TreeNode* createBinaryTree(vector<vector<int>>& descriptions) {
+    unordered_map<int, TreeNode*> nodes;
+    unordered_set<int> children;
+
+    // Create nodes and establish parent-child relationships
+    for (const auto& desc : descriptions) {
+        int parentVal = desc[0], childVal = desc[1], isLeft = desc[2];
+
+        if (nodes.find(parentVal) == nodes.end()) {
+            nodes[parentVal] = new TreeNode(parentVal);
+        }
+        if (nodes.find(childVal) == nodes.end()) {
+            nodes[childVal] = new TreeNode(childVal);
+        }
+
+        if (isLeft) {
+            nodes[parentVal]->left = nodes[childVal];
+        } else {
+            nodes[parentVal]->right = nodes[childVal];
+        }
+
+        children.insert(childVal);
+    }
+
+    // Find the root node (the node that is never a child)
+    TreeNode* root = nullptr;
+    for (const auto& node : nodes) {
+        if (children.find(node.first) == children.end()) {
+            root = node.second;
+            break;
+        }
+    }
+
+    return root;
+}
+
+// Helper function for pre-order traversal to print the tree (for verification)
+void preOrderTraversal(TreeNode* root) {
+    if (!root) return;
+    cout << root->val << " ";
+    preOrderTraversal(root->left);
+    preOrderTraversal(root->right);
+}
+
+int main() {
+    vector<vector<int>> descriptions1 = {{20,15,1},{20,17,0},{50,20,1},{50,80,0},{80,19,1}};
+    TreeNode* root1 = createBinaryTree(descriptions1);
+    preOrderTraversal(root1);  // Output: 50 20 15 17 80 19
+
+    cout << endl;
+
+    vector<vector<int>> descriptions2 = {{1,2,1},{2,3,0},{3,4,1}};
+    TreeNode* root2 = createBinaryTree(descriptions2);
+    preOrderTraversal(root2);  // Output: 1 2 3 4
+
+    return 0;
+}
