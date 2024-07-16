@@ -1,0 +1,40 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    TreeNode* findlca(TreeNode* root,int s,int e){
+        if(!root||root->val==s||root->val==e) return root;
+        TreeNode* left=findlca(root->left,s,e);
+        TreeNode* right=findlca(root->right,s,e);
+        if(left&&right) return root;
+        return left?left:right;
+    }
+    bool findpath(TreeNode* root,int s,string& p){
+        if(!root) return false;
+        if(root->val==s) return true;
+        p.push_back('L');
+        if(findpath(root->left,s,p)) return true;
+        p.pop_back();
+        p.push_back('R');
+        if(findpath(root->right,s,p)) return true;
+        p.pop_back();
+        return false;
+    }
+    string getDirections(TreeNode* root, int startValue, int destValue) {
+        TreeNode* lca=findlca(root,startValue,destValue);
+        string paths,pathe;
+        findpath(lca,startValue,paths);
+        findpath(lca,destValue,pathe);
+        for(char& c:paths) c='U';
+        return paths+pathe;
+    }
+};
