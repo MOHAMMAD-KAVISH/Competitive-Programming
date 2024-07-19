@@ -1,0 +1,34 @@
+class Solution {
+public:
+    vector<int> luckyNumbers (vector<vector<int>>& matrix) {
+        int m = matrix.size();
+        int n = matrix[0].size();
+        
+        std::vector<int> rowMin(m);
+        std::unordered_set<int> colMaxSet;
+        
+        // Step 1: Find minimum in each row
+        for (int i = 0; i < m; ++i) {
+            rowMin[i] = *std::min_element(matrix[i].begin(), matrix[i].end());
+        }
+        
+        // Step 2: Find maximum in each column and store in a set
+        for (int j = 0; j < n; ++j) {
+            int colMax = matrix[0][j];
+            for (int i = 1; i < m; ++i) {
+                colMax = std::max(colMax, matrix[i][j]);
+            }
+            colMaxSet.insert(colMax);
+        }
+        
+        // Step 3: Compare row minimums with column maximums
+        std::vector<int> luckyNumbers;
+        for (int i = 0; i < m; ++i) {
+            if (colMaxSet.count(rowMin[i])) {
+                luckyNumbers.push_back(rowMin[i]);
+            }
+        }
+        
+        return luckyNumbers;
+    }
+};
