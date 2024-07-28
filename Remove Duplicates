@@ -1,0 +1,28 @@
+#include <iostream>
+#include <vector>
+#include <string>
+using namespace std;
+
+string removeDuplicates(string str) {
+    vector<bool> seen(26, false);
+    string result = "";
+
+    for (char c : str) {
+        if (!seen[c - 'a']) {
+            result += c;
+            seen[c - 'a'] = true;
+        }
+    }
+
+    return result;
+}
+
+int main() {
+    string str1 = "zvvo";
+    string str2 = "gfg";
+
+    cout << "Output for '" << str1 << "': " << removeDuplicates(str1) << endl;
+    cout << "Output for '" << str2 << "': " << removeDuplicates(str2) << endl;
+
+    return 0;
+}
