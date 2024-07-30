@@ -1,0 +1,82 @@
+#include <iostream>
+#include <vector>
+#include <string>
+#include <algorithm>
+
+using namespace std;
+
+void findPaths(vector<vector<int>>& mat, int x, int y, string path, vector<string>& paths, vector<vector<int>>& visited) {
+    int n = mat.size();
+    
+    // If destination (n-1, n-1) is reached
+    if (x == n - 1 && y == n - 1) {
+        paths.push_back(path);
+        return;
+    }
+    
+    // Mark this cell as visited
+    visited[x][y] = 1;
+
+    // Moving Down
+    if (x + 1 < n && mat[x + 1][y] == 1 && visited[x + 1][y] == 0) {
+        findPaths(mat, x + 1, y, path + "D", paths, visited);
+    }
+    // Moving Left
+    if (y - 1 >= 0 && mat[x][y - 1] == 1 && visited[x][y - 1] == 0) {
+        findPaths(mat, x, y - 1, path + "L", paths, visited);
+    }
+    // Moving Right
+    if (y + 1 < n && mat[x][y + 1] == 1 && visited[x][y + 1] == 0) {
+        findPaths(mat, x, y + 1, path + "R", paths, visited);
+    }
+    // Moving Up
+    if (x - 1 >= 0 && mat[x - 1][y] == 1 && visited[x - 1][y] == 0) {
+        findPaths(mat, x - 1, y, path + "U", paths, visited);
+    }
+    
+    // Backtrack: unmark this cell as visited
+    visited[x][y] = 0;
+}
+
+vector<string> findPath(vector<vector<int>>& mat) {
+    vector<string> paths;
+    int n = mat.size();
+    
+    if (mat[0][0] == 0) return paths;
+    
+    vector<vector<int>> visited(n, vector<int>(n, 0));
+    findPaths(mat, 0, 0, "", paths, visited);
+    
+    sort(paths.begin(), paths.end());
+    return paths;
+}
+
+int main() {
+    vector<vector<int>> mat1 = {{1, 0, 0, 0},
+                                {1, 1, 0, 1},
+                                {1, 1, 0, 0},
+                                {0, 1, 1, 1}};
+                                
+    vector<vector<int>> mat2 = {{1, 0},
+                                {1, 0}};
+                                
+    vector<string> paths1 = findPath(mat1);
+    if (paths1.empty()) cout << "-1" << endl;
+    else {
+        for (const string& path : paths1) {
+            cout << path << " ";
+        }
+        cout << endl;
+    }
+    
+    vector<string> paths2 = findPath(mat2);
+    if (paths2.empty()) cout << "-1" << endl;
+    else {
+        for (const string& path : paths2) {
+            cout << path << " ";
+        }
+        cout << endl;
+    }
+    
+    return 0;
+}
