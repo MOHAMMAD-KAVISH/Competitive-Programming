@@ -1,0 +1,15 @@
+class Solution {
+public:
+    int minimumDeletions(string s) {
+        int dp=0;
+        int co=0;
+        for(const char c:s){
+            if(c=='a'){
+                dp=min(dp+1,co);
+            }else{
+                co++;
+            }
+        }
+        return dp;
+    }
+};
