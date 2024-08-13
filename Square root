@@ -1,0 +1,23 @@
+class Solution {
+  public:
+    long long int floorSqrt(long long int n) {
+        // Your code goes here
+        if(n==0||n==1) return n;
+        long long int l=1,h=n;
+        long long int ans=0;
+        while(l<=h){
+            long long int m=(l+h)/2;
+            if(m*m==n){
+                return m;
+            }else{
+                if(m*m<n){
+                    l=m+1;
+                    ans=m;
+                }else{
+                    h=m-1;
+                }
+            }
+        }
+        return ans;
+    }
+};
