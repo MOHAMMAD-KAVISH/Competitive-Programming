@@ -1,0 +1,24 @@
+class Solution {
+public:
+    void backtrack(vector<int>&candi,int t,vector<vector<int>>&res,vector<int>&combi,int s){
+        if(t==0){
+            res.push_back(combi);
+            return;
+        }
+        for(int i=s;i<candi.size();i++){
+            if(i>s&&candi[i]==candi[i-1]) continue;
+            if(candi[i]>t) break;
+            combi.push_back(candi[i]);
+            backtrack(candi,t-candi[i],res,combi,i+1);
+            combi.pop_back();
+        }
+        
+    }
+    vector<vector<int>> combinationSum2(vector<int>& candidates, int target) {
+        sort(candidates.begin(),candidates.end());
+        vector<vector<int>>res;
+        vector<int>combi;
+        backtrack(candidates,target,res,combi,0);
+        return res;
+    }
+};
