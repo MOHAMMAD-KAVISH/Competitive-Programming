@@ -1,0 +1,30 @@
+#include <vector>
+using namespace std;
+
+bool canSplitArray(vector<int>& arr) {
+    // Calculate the total sum of the array
+    int totalSum = 0;
+    for (int num : arr) {
+        totalSum += num;
+    }
+
+    // If total sum is odd, return false
+    if (totalSum % 2 != 0) {
+        return false;
+    }
+
+    // We are looking for a subarray with sum equal to half of the total sum
+    int halfSum = totalSum / 2;
+    int currentSum = 0;
+
+    // Iterate through the array to find a split point
+    for (int num : arr) {
+        currentSum += num;
+        if (currentSum == halfSum) {
+            return true;
+        }
+    }
+
+    // If no such split point is found, return false
+    return false;
+}
