@@ -1,0 +1,129 @@
+#include <iostream>
+#include <unordered_map>
+#include <queue>
+#include <set>
+using namespace std;
+
+// Definition for a binary tree node.
+struct TreeNode {
+    int val;
+    TreeNode *left;
+    TreeNode *right;
+    TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+};
+
+class Solution {
+public:
+    // Helper function to map each node to its parent
+    void mapParents(TreeNode* root, unordered_map<TreeNode*, TreeNode*>& parentTrack, TreeNode* target) {
+        queue<TreeNode*> q;
+        q.push(root);
+        while(!q.empty()) {
+            TreeNode* current = q.front();
+            q.pop();
+            if(current->left) {
+                parentTrack[current->left] = current;
+                q.push(current->left);
+            }
+            if(current->right) {
+                parentTrack[current->right] = current;
+                q.push(current->right);
+            }
+        }
+    }
+
+    int minTimeToBurn(TreeNode* root, int target) {
+        // Step 1: Map all nodes to their parent
+        unordered_map<TreeNode*, TreeNode*> parentTrack;
+        mapParents(root, parentTrack, nullptr);
+
+        // Step 2: Find the target node
+        TreeNode* targetNode = nullptr;
+        queue<TreeNode*> q;
+        q.push(root);
+        while(!q.empty()) {
+            TreeNode* current = q.front();
+            q.pop();
+            if(current->val == target) {
+                targetNode = current;
+                break;
+            }
+            if(current->left) q.push(current->left);
+            if(current->right) q.push(current->right);
+        }
+
+        // Step 3: BFS to burn the tree
+        queue<TreeNode*> burnQueue;
+        set<TreeNode*> visited;
+        burnQueue.push(targetNode);
+        visited.insert(targetNode);
+
+        int time = 0;
+        while(!burnQueue.empty()) {
+            int size = burnQueue.size();
+            bool flag = false;
+            for(int i = 0; i < size; i++) {
+                TreeNode* current = burnQueue.front();
+                burnQueue.pop();
+                // Check left child
+                if(current->left && visited.find(current->left) == visited.end()) {
+                    flag = true;
+                    visited.insert(current->left);
+                    burnQueue.push(current->left);
+                }
+                // Check right child
+                if(current->right && visited.find(current->right) == visited.end()) {
+                    flag = true;
+                    visited.insert(current->right);
+                    burnQueue.push(current->right);
+                }
+                // Check parent
+                if(parentTrack[current] && visited.find(parentTrack[current]) == visited.end()) {
+                    flag = true;
+                    visited.insert(parentTrack[current]);
+                    burnQueue.push(parentTrack[current]);
+                }
+            }
+            if(flag) time++;
+        }
+        
+        return time;
+    }
+};
+
+// Helper function to create a new tree node
+TreeNode* newNode(int val) {
+    TreeNode* node = new TreeNode(val);
+    return node;
+}
+
+int main() {
+    Solution sol;
+
+    // Example 1
+    TreeNode* root1 = newNode(1);
+    root1->left = newNode(2);
+    root1->right = newNode(3);
+    root1->left->left = newNode(4);
+    root1->left->right = newNode(5);
+    root1->left->right->left = newNode(7);
+    root1->left->right->right = newNode(8);
+    root1->right->right = newNode(6);
+    root1->right->right->right = newNode(9);
+    root1->right->right->right->right = newNode(10);
+
+    cout << "Minimum time to burn the tree: " << sol.minTimeToBurn(root1, 8) << endl; // Output: 7
+
+    // Example 2
+    TreeNode* root2 = newNode(1);
+    root2->left = newNode(2);
+    root2->right = newNode(3);
+    root2->left->left = newNode(4);
+    root2->left->right = newNode(5);
+    root2->left->left->left = newNode(8);
+    root2->left->right->left = newNode(10);
+
+    cout << "Minimum time to burn the tree: " << sol.minTimeToBurn(root2, 10) << endl; // Output: 5
+
+    return 0;
+}
