@@ -1,0 +1,25 @@
+class Solution {
+  public:
+    // Function to find the length of a loop in the linked list.
+    int countNodesinLoop(Node *head) {
+        if(head==NULL) return 0;
+        // Code here
+        Node* slow=head;
+        Node* fast=head;
+        
+        while(fast!=NULL&&fast->next!=NULL){
+            slow=slow->next;
+            fast=fast->next->next;
+            int c=1;
+            if(slow==fast){
+                Node* temp=slow;
+                while(temp->next!=slow){
+                    temp=temp->next;
+                    c++;
+                }
+                return c;
+            }
+        }
+        return 0;
+    }
+};
