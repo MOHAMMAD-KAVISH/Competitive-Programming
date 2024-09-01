@@ -1,0 +1,21 @@
+vector<vector<int>> construct2DArray(vector<int>& original, int m, int n) {
+    int totalElements = original.size();
+    
+    // If the number of elements in original is not equal to m * n, return an empty array
+    if (totalElements != m * n) {
+        return {};
+    }
+
+    // Create a 2D vector with m rows and n columns
+    vector<vector<int>> result(m, vector<int>(n));
+
+    // Fill the 2D array row by row
+    int index = 0; // To keep track of the current element in original array
+    for (int i = 0; i < m; ++i) { // Iterate over each row
+        for (int j = 0; j < n; ++j) { // Iterate over each column
+            result[i][j] = original[index++];
+        }
+    }
+
+    return result;
+}
