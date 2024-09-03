@@ -1,0 +1,53 @@
+#include <iostream>
+#include <vector>
+#include <string>
+
+using namespace std;
+
+// Function to find the length of the Longest Common Subsequence (LCS)
+int longestCommonSubsequence(string str1, string str2) {
+    int n = str1.length();
+    int m = str2.length();
+    
+    // Create a 2D DP array to store the length of LCS
+    vector<vector<int>> dp(n + 1, vector<int>(m + 1, 0));
+    
+    // Fill the DP array
+    for (int i = 1; i <= n; i++) {
+        for (int j = 1; j <= m; j++) {
+            if (str1[i - 1] == str2[j - 1]) {
+                dp[i][j] = 1 + dp[i - 1][j - 1];
+            } else {
+                dp[i][j] = max(dp[i - 1][j], dp[i][j - 1]);
+            }
+        }
+    }
+    
+    // The value at dp[n][m] will be the length of the LCS
+    return dp[n][m];
+}
+
+// Function to find the minimum number of deletions and insertions to transform str1 into str2
+int minOperationsToTransform(string str1, string str2) {
+    int lcsLength = longestCommonSubsequence(str1, str2);
+    int deletions = str1.length() - lcsLength;
+    int insertions = str2.length() - lcsLength;
+    
+    // Total operations needed to transform str1 to str2
+    return deletions + insertions;
+}
+
+int main() {
+    // Example usage
+    string str1 = "heap";
+    string str2 = "pea";
+    cout << "Minimum number of operations to transform \"" << str1 << "\" to \"" << str2 << "\": ";
+    cout << minOperationsToTransform(str1, str2) << endl; // Output: 3
+
+    str1 = "geeksforgeeks";
+    str2 = "geeks";
+    cout << "Minimum number of operations to transform \"" << str1 << "\" to \"" << str2 << "\": ";
+    cout << minOperationsToTransform(str1, str2) << endl; // Output: 8
+
+    return 0;
+}
