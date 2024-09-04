@@ -1,0 +1,19 @@
+#include <iostream>
+using namespace std;
+
+int countDistinctWays(int n) {
+    // The number of distinct ways to reach the top 
+    // is determined by the possible combinations of 
+    // 2-steps, which range from 0 to n/2.
+    return n / 2 + 1;
+}
+
+int main() {
+    int n;
+    cout << "Enter the number of stairs: ";
+    cin >> n;
+    
+    cout << "Number of distinct ways to reach the top: " << countDistinctWays(n) << endl;
+
+    return 0;
+}
