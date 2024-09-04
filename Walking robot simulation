@@ -1,0 +1,60 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int robotSim(vector<int>& commands, vector<vector<int>>& obstacles) {
+    // Direction vectors for N, E, S, W
+    vector<pair<int, int>> directions = {{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
+    
+    // Convert obstacle list to a set of pairs for easy lookup
+    set<pair<int, int>> obstacleSet;
+    for (const auto& obs : obstacles) {
+        obstacleSet.insert({obs[0], obs[1]});
+    }
+    
+    int x = 0, y = 0; // Starting position
+    int dir = 0;      // Starting direction: 0 -> North, 1 -> East, 2 -> South, 3 -> West
+    int maxDistSq = 0; // Maximum distance squared
+
+    for (int cmd : commands) {
+        if (cmd == -2) {
+            // Turn left
+            dir = (dir + 3) % 4;
+        } else if (cmd == -1) {
+            // Turn right
+            dir = (dir + 1) % 4;
+        } else {
+            // Move forward
+            for (int step = 0; step < cmd; ++step) {
+                int nx = x + directions[dir].first;
+                int ny = y + directions[dir].second;
+
+                // Check if next position is an obstacle
+                if (obstacleSet.find({nx, ny}) == obstacleSet.end()) {
+                    x = nx;
+                    y = ny;
+                    maxDistSq = max(maxDistSq, x * x + y * y);
+                } else {
+                    break; // Stop if there's an obstacle
+                }
+            }
+        }
+    }
+    
+    return maxDistSq;
+}
+
+int main() {
+    vector<int> commands1 = {4, -1, 3};
+    vector<vector<int>> obstacles1 = {};
+    cout << robotSim(commands1, obstacles1) << endl; // Output: 25
+
+    vector<int> commands2 = {4, -1, 4, -2, 4};
+    vector<vector<int>> obstacles2 = {{2, 4}};
+    cout << robotSim(commands2, obstacles2) << endl; // Output: 65
+
+    vector<int> commands3 = {6, -1, -1, 6};
+    vector<vector<int>> obstacles3 = {};
+    cout << robotSim(commands3, obstacles3) << endl; // Output: 36
+
+    return 0;
+}
