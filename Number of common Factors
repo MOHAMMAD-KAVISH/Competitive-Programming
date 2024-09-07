@@ -1,0 +1,13 @@
+class Solution {
+public:
+    int commonFactors(int a, int b) {
+        int gcdv=gcd(a,b);
+        int c=0;
+        for(int i=1;i<=gcdv;i++){
+            if(gcdv%i==0){
+                c++;
+            }
+        }
+        return c;
+    }
+};
