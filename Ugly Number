@@ -1,24 +1,22 @@
 class Solution {
 public:
-    int nthUglyNumber(int n) {
-        int i2=0,i3=0,i5=0;
-        vector<int>ugly{1};
-        while(ugly.size()<n){
-            int next2=ugly[i2]*2;
-            int next3=ugly[i3]*3;
-            int next5=ugly[i5]*5;
-            int next=min({next2,next3,next5});
-            if(next==next2){
-                i2++;
-            }
-            if(next==next3){
-                i3++;
-            }
-            if(next==next5){
-                i5++;
-            }
-            ugly.push_back(next);
+    bool isUgly(int n) {
+        if (n <= 0) {
+            return false;
         }
-        return ugly.back();
+        
+        // Divide n by 2, 3, or 5 as long as it's divisible by them
+        while (n % 2 == 0) {
+            n /= 2;
+        }
+        while (n % 3 == 0) {
+            n /= 3;
+        }
+        while (n % 5 == 0) {
+            n /= 5;
+        }
+        
+        // After division, if n becomes 1, it's an ugly number
+        return n == 1;
     }
 };
