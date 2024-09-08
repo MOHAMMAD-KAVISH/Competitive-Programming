@@ -1,0 +1,47 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+
+int minJumps(vector<int>& arr) {
+    int n = arr.size();
+    
+    // Edge case: If the array has only one element, no jumps are required
+    if (n == 1) return 0;
+
+    // If the first element is 0, we can't move anywhere, return -1
+    if (arr[0] == 0) return -1;
+
+    // Initialize variables
+    int farthest = 0, current_end = 0, jumps = 0;
+
+    // Traverse the array
+    for (int i = 0; i < n; i++) {
+        farthest = max(farthest, i + arr[i]);
+
+        // If we've reached the last index, return the jumps
+        if (farthest >= n - 1) return jumps + 1;
+
+        // If we've reached the current end, we need to jump
+        if (i == current_end) {
+            jumps++;
+            current_end = farthest;
+
+            // If after the jump, the current end doesn't move forward, return -1
+            if (current_end == i) return -1;
+        }
+    }
+
+    return -1; // In case we can't reach the end
+}
+
+int main() {
+    vector<int> arr1 = {1, 3, 5, 8, 9, 2, 6, 7, 6, 8, 9};
+    vector<int> arr2 = {1, 4, 3, 2, 6, 7};
+    vector<int> arr3 = {0, 10, 20};
+    
+    cout << "Minimum jumps for arr1: " << minJumps(arr1) << endl;
+    cout << "Minimum jumps for arr2: " << minJumps(arr2) << endl;
+    cout << "Minimum jumps for arr3: " << minJumps(arr3) << endl;
+
+    return 0;
+}
