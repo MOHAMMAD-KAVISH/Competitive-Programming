@@ -1,0 +1,53 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+
+class Solution {
+public:
+    vector<ListNode*> splitListToParts(ListNode* head, int k) {
+        vector<ListNode*> result(k, nullptr);
+        
+        // Step 1: Find the total length of the list
+        int totalLength = 0;
+        ListNode* curr = head;
+        while (curr != nullptr) {
+            totalLength++;
+            curr = curr->next;
+        }
+
+        // Step 2: Determine the size of each part
+        int partSize = totalLength / k;  // Minimum number of nodes in each part
+        int extraNodes = totalLength % k;  // How many parts will have an extra node
+
+        // Step 3: Split the list
+        curr = head;
+        for (int i = 0; i < k; i++) {
+            // Assign the current head to the result for this part
+            result[i] = curr;
+
+            // Determine how many nodes should be in this part
+            int currentPartSize = partSize + (extraNodes > 0 ? 1 : 0);
+            extraNodes--;
+
+            // Move curr to the end of this part and break the link
+            for (int j = 0; j < currentPartSize - 1 && curr != nullptr; j++) {
+                curr = curr->next;
+            }
+
+            if (curr != nullptr) {
+                ListNode* nextPartHead = curr->next;
+                curr->next = nullptr;  // Break the link for this part
+                curr = nextPartHead;   // Move to the next part
+            }
+        }
+
+        return result;
+    }
+};
