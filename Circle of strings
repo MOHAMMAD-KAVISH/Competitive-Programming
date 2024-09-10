@@ -1,0 +1,67 @@
+#include <iostream>
+#include <vector>
+#include <string>
+using namespace std;
+
+class Solution {
+public:
+    // Helper function to perform DFS traversal
+    void dfs(int node, vector<vector<int>>& adj, vector<bool>& visited) {
+        visited[node] = true;
+        for (int neighbor : adj[node]) {
+            if (!visited[neighbor]) {
+                dfs(neighbor, adj, visited);
+            }
+        }
+    }
+
+    // Function to check if the strings can be chained to form a circle
+    int isCircle(vector<string>& arr) {
+        vector<int> in(26, 0), out(26, 0);  // In-degree and out-degree for each character
+        vector<vector<int>> adj(26);        // Adjacency list for characters
+        int start = -1;  // To keep track of the first character of any string
+
+        // Step 1: Calculate in-degree and out-degree and build adjacency list
+        for (string& str : arr) {
+            int u = str.front() - 'a';  // First character as vertex u
+            int v = str.back() - 'a';   // Last character as vertex v
+            out[u]++;
+            in[v]++;
+            adj[u].push_back(v);
+            start = u;  // Keep track of any starting vertex
+        }
+
+        // Step 2: Check if in-degree and out-degree of all vertices match
+        for (int i = 0; i < 26; i++) {
+            if (in[i] != out[i]) {
+                return 0;  // If any character has mismatched in-degree and out-degree
+            }
+        }
+
+        // Step 3: Check if all characters involved form a strongly connected component
+        vector<bool> visited(26, false);
+        dfs(start, adj, visited);
+
+        // Check if all nodes with non-zero degree are visited
+        for (int i = 0; i < 26; i++) {
+            if ((in[i] > 0 || out[i] > 0) && !visited[i]) {
+                return 0;  // If any character with non-zero degree is not visited, return false
+            }
+        }
+
+        return 1;  // All conditions are met, the strings can form a circle
+    }
+};
+
+int main() {
+    Solution sol;
+    vector<string> arr1 = {"for", "geek", "rig", "kaf"};
+    vector<string> arr2 = {"abc", "bcd", "cdf"};
+    vector<string> arr3 = {"ab", "bc", "cd", "da"};
+    
+    cout << sol.isCircle(arr1) << endl;  // Output: 1 (Yes, the strings form a circle)
+    cout << sol.isCircle(arr2) << endl;  // Output: 0 (No, they can't form a circle)
+    cout << sol.isCircle(arr3) << endl;  // Output: 1 (Yes, they form a circle)
+    
+    return 0;
+}
