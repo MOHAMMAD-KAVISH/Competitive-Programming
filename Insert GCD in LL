@@ -1,0 +1,41 @@
+#include <algorithm> // For gcd
+
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+
+class Solution {
+public:
+    ListNode* insertGreatestCommonDivisors(ListNode* head) {
+        // If the list has less than two nodes, no pairs exist, so just return the list
+        if (head == nullptr || head->next == nullptr) {
+            return head;
+        }
+        
+        ListNode* curr = head;
+        
+        while (curr != nullptr && curr->next != nullptr) {
+            // Compute GCD of the current and next node's values
+            int gcdVal = std::__gcd(curr->val, curr->next->val);
+            
+            // Create a new node with the GCD value
+            ListNode* newNode = new ListNode(gcdVal);
+            
+            // Insert the new node between curr and curr->next
+            newNode->next = curr->next;
+            curr->next = newNode;
+            
+            // Move to the next pair (i.e., skip the newly inserted node)
+            curr = newNode->next;
+        }
+        
+        return head;
+    }
+};
