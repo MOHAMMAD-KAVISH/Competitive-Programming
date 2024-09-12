@@ -1,0 +1,20 @@
+class Solution {
+public:
+    int countConsistentStrings(string allowed, vector<string>& words) {
+        unordered_set<char>mp(allowed.begin(),allowed.end());
+        int c=0;
+        for(string w:words){
+            bool check=true;
+            for(char ch:w){
+                if(mp.find(ch)==mp.end()){
+                    check=false;
+                    break;
+                }
+            }
+            if(check){
+                c++;
+            }
+        }
+        return c;
+    }
+};
