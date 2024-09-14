@@ -1,0 +1,20 @@
+#include <vector>
+#include <algorithm>
+
+int longestSubarray(std::vector<int>& nums) {
+    int maxVal = *std::max_element(nums.begin(), nums.end()); // Find the maximum value in the array
+    int maxLength = 0, currentLength = 0;
+
+    for (int num : nums) {
+        if (num == maxVal) {
+            // Increment the current length if the number is equal to the max value
+            currentLength++;
+            maxLength = std::max(maxLength, currentLength); // Update the maximum length
+        } else {
+            // Reset the current length if the number is not equal to the max value
+            currentLength = 0;
+        }
+    }
+    
+    return maxLength;
+}
