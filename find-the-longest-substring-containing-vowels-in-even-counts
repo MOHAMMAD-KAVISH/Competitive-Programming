@@ -1,0 +1,35 @@
+#include <unordered_map>
+#include <string>
+#include <vector>
+
+int findTheLongestSubstring(std::string s) {
+    std::unordered_map<int, int> pos;  // Maps bitmask to its first occurrence position
+    int mask = 0;  // Initialize bitmask as 0
+    int maxLength = 0;
+    pos[0] = -1;  // Initialize the base case where the mask is 0 before the string starts
+    
+    for (int i = 0; i < s.length(); ++i) {
+        // Update the bitmask when encountering a vowel
+        if (s[i] == 'a') {
+            mask ^= (1 << 0);  // Toggle the bit for 'a'
+        } else if (s[i] == 'e') {
+            mask ^= (1 << 1);  // Toggle the bit for 'e'
+        } else if (s[i] == 'i') {
+            mask ^= (1 << 2);  // Toggle the bit for 'i'
+        } else if (s[i] == 'o') {
+            mask ^= (1 << 3);  // Toggle the bit for 'o'
+        } else if (s[i] == 'u') {
+            mask ^= (1 << 4);  // Toggle the bit for 'u'
+        }
+        
+        // If the current bitmask has been seen before, calculate the length
+        if (pos.find(mask) != pos.end()) {
+            maxLength = std::max(maxLength, i - pos[mask]);
+        } else {
+            // Otherwise, store the first occurrence of this bitmask
+            pos[mask] = i;
+        }
+    }
+    
+    return maxLength;
+}
