@@ -1,0 +1,20 @@
+class Solution {
+public:
+    int findMinDifference(vector<string>& timePoints) {
+        vector<int>minute;
+        for(string& s:timePoints){
+            int h=stoi(s.substr(0,2));
+            int m=stoi(s.substr(3,2));
+            int total=h*60+m;
+            minute.push_back(total);
+        }
+        sort(minute.begin(),minute.end());
+        int maxlen=INT_MAX;
+        for(int i=1;i<minute.size();i++){
+            maxlen=min(maxlen,minute[i]-minute[i-1]);
+        }
+        int circlen=(1440-minute.back())+minute.front();
+        maxlen=min(maxlen,circlen);
+        return maxlen;
+    }
+};
