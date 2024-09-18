@@ -1,0 +1,49 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <string>
+using namespace std;
+
+// Comparator function to compare two strings
+bool compare(string a, string b) {
+    return a + b > b + a;  // Compare based on concatenated results
+}
+
+class Solution {
+public:
+    string largestNumber(vector<int>& nums) {
+        // Convert integers to strings
+        vector<string> strNums;
+        for (int num : nums) {
+            strNums.push_back(to_string(num));
+        }
+        
+        // Sort the strings using the custom comparator
+        sort(strNums.begin(), strNums.end(), compare);
+        
+        // If after sorting, the largest number is "0", return "0"
+        if (strNums[0] == "0") {
+            return "0";
+        }
+        
+        // Concatenate the sorted strings
+        string result;
+        for (string s : strNums) {
+            result += s;
+        }
+        
+        return result;
+    }
+};
+
+int main() {
+    Solution sol;
+    
+    vector<int> nums1 = {10, 2};
+    cout << sol.largestNumber(nums1) << endl; // Output: "210"
+    
+    vector<int> nums2 = {3, 30, 34, 5, 9};
+    cout << sol.largestNumber(nums2) << endl; // Output: "9534330"
+    
+    return 0;
+}
