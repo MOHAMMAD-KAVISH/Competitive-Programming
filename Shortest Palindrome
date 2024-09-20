@@ -1,0 +1,32 @@
+class Solution {
+public:
+    string shortestPalindrome(string s) {
+        string rev_s = s;
+        reverse(rev_s.begin(), rev_s.end());
+        string l = s + "#" + rev_s;
+        
+        // Compute the KMP table (pi array)
+        vector<int> pi(l.size(), 0);
+        
+        for (int i = 1; i < l.size(); i++) {
+            int j = pi[i - 1];
+            
+            while (j > 0 && l[i] != l[j]) {
+                j = pi[j - 1];
+            }
+            
+            if (l[i] == l[j]) {
+                j++;
+            }
+            pi[i] = j;
+        }
+        
+        // Longest palindromic prefix length is pi[l.size() - 1]
+        int longest_palindrome_length = pi[l.size() - 1];
+        
+        // Add the reversed suffix in front of the string
+        string add_on = s.substr(longest_palindrome_length);
+        reverse(add_on.begin(), add_on.end());
+        return add_on + s;
+    }
+};
