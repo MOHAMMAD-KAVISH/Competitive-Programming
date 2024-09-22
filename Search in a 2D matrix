@@ -1,0 +1,21 @@
+bool searchMatrix(vector<vector<int>>& mat, int target) {
+    if(mat.empty()||mat[0].empty()) return false;
+    int r=mat.size();
+    int c=mat[0].size();
+    int l=0,h=r*c-1;
+    while(l<=h){
+        int m=(l+h)/2;
+        int row=m/c;
+        int col=m%c;
+        if(mat[row][col]==target){
+            return true;
+        }else{
+            if(mat[row][col]<target){
+                l=m+1;
+            }else{
+                h=m-1;
+            }
+        }
+    }
+    return false;
+}
