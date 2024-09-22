@@ -1,0 +1,29 @@
+class Solution {
+public:
+    int check(long long curr,long long n){
+        long long f=curr;
+        long long l=curr;
+        long long step=0;
+        while(f<=n){
+            step+=min(l+1,n+1)-f;
+            f*=10;
+            l=l*10+9;
+        }
+        return step;
+    }
+    int findKthNumber(int n, int k) {
+        int curr=1;
+        k--;
+        while(k>0){
+            int st=check(curr,n);
+            if(st<=k){
+                curr++;
+                k-=st;
+            }else{
+                curr*=10;
+                k--;
+            }
+        }
+        return curr;
+    }
+};
