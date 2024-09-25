@@ -1,0 +1,78 @@
+#include <iostream>
+#include <vector>
+#include <string>
+using namespace std;
+
+struct TrieNode {
+    TrieNode* children[26];
+    int count;
+    
+    TrieNode() {
+        for (int i = 0; i < 26; i++) {
+            children[i] = nullptr;
+        }
+        count = 0;
+    }
+};
+
+class Solution {
+public:
+    void insert(TrieNode* root, const string& word) {
+        TrieNode* node = root;
+        for (char ch : word) {
+            int idx = ch - 'a';
+            if (node->children[idx] == nullptr) {
+                node->children[idx] = new TrieNode();
+            }
+            node = node->children[idx];
+            node->count++;  // Increment the count at the current node
+        }
+    }
+    
+    int getScore(TrieNode* root, const string& word) {
+        TrieNode* node = root;
+        int score = 0;
+        for (char ch : word) {
+            int idx = ch - 'a';
+            node = node->children[idx];
+            score += node->count;  // Add the count of the current prefix
+        }
+        return score;
+    }
+    
+    vector<int> sumPrefixScores(vector<string>& words) {
+        TrieNode* root = new TrieNode();
+        
+        // Insert all words into the Trie
+        for (const string& word : words) {
+            insert(root, word);
+        }
+        
+        // Calculate the prefix score for each word
+        vector<int> result;
+        for (const string& word : words) {
+            result.push_back(getScore(root, word));
+        }
+        
+        return result;
+    }
+};
+
+int main() {
+    Solution sol;
+    vector<string> words1 = {"abc","ab","bc","b"};
+    vector<int> result1 = sol.sumPrefixScores(words1);
+    for (int score : result1) {
+        cout << score << " ";  // Output: 5 4 3 2
+    }
+    cout << endl;
+
+    vector<string> words2 = {"abcd"};
+    vector<int> result2 = sol.sumPrefixScores(words2);
+    for (int score : result2) {
+        cout << score << " ";  // Output: 4
+    }
+    cout << endl;
+
+    return 0;
+}
