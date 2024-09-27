@@ -1,0 +1,36 @@
+class MyCalendarTwo {
+    vector<pair<int, int>> bookings; // To store all bookings
+    vector<pair<int, int>> overlaps; // To store overlapping intervals
+
+public:
+    MyCalendarTwo() {
+        
+    }
+    
+    bool book(int start, int end) {
+        // Step 1: Check if the new event causes a triple booking by overlapping with existing overlaps
+        for (auto& overlap : overlaps) {
+            if (max(start, overlap.first) < min(end, overlap.second)) {
+                return false; // Triple booking detected
+            }
+        }
+
+        // Step 2: Check for overlaps with existing bookings, and store those as overlaps
+        for (auto& booking : bookings) {
+            if (max(start, booking.first) < min(end, booking.second)) {
+                // There is an overlap, add it to overlaps
+                overlaps.push_back({max(start, booking.first), min(end, booking.second)});
+            }
+        }
+
+        // Step 3: If no triple booking, add the new event to bookings
+        bookings.push_back({start, end});
+        return true;
+    }
+};
+
+/**
+ * Your MyCalendarTwo object will be instantiated and called as such:
+ * MyCalendarTwo* obj = new MyCalendarTwo();
+ * bool param_1 = obj->book(start,end);
+ */
