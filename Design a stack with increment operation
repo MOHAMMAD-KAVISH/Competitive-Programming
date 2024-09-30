@@ -1,0 +1,41 @@
+class CustomStack {
+    vector<int> stack;
+    vector<int> inc;
+    int maxSize;
+
+public:
+    CustomStack(int maxSize) {
+        this->maxSize = maxSize;
+        inc.resize(maxSize, 0);  // Initialize the inc array with 0s
+    }
+    
+    void push(int x) {
+        if (stack.size() < maxSize) {
+            stack.push_back(x);
+        }
+    }
+    
+    int pop() {
+        int index = stack.size() - 1;
+        if (index == -1) return -1;
+
+        // Add the increment (if any) to the top element
+        int result = stack.back() + inc[index];
+        
+        // Pass the increment down to the next element
+        if (index > 0) {
+            inc[index - 1] += inc[index];
+        }
+        inc[index] = 0;  // Reset the increment for this index
+        stack.pop_back();
+        
+        return result;
+    }
+    
+    void increment(int k, int val) {
+        int index = min(k, (int)stack.size()) - 1;
+        if (index >= 0) {
+            inc[index] += val;
+        }
+    }
+};
