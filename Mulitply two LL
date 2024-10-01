@@ -1,0 +1,35 @@
+struct Node
+{
+    int data;
+    Node* next;
+
+    Node(int x){
+        data = x;
+        next = NULL;
+    }
+
+};*/
+
+/*The method multiplies
+two  linked lists l1 and l2
+and returns their product*/
+
+/* Multiply contents of two linked lists */
+const int mod=1e9+7;
+class solution {
+    long long convert(Node* head){
+        long long num=0;
+        while(head){
+            num=(num*10+head->data)%mod;
+            head=head->next;
+        }
+        return num;
+    }
+  public:
+    long long multiplyTwoLists(Node *first, Node *second) {
+        // code here
+        long long n1=convert(first);
+        long long n2=convert(second);
+        return (n1*n2)%mod;
+    }
+};
