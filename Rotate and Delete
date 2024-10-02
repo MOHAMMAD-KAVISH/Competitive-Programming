@@ -1,0 +1,16 @@
+class Solution {
+  public:
+    int rotateDelete(vector<int> &arr) {
+        // Your code here
+        int sz=arr.size();
+        for(int k=1;k<=sz/2;k++){
+            int l=arr.back();
+            arr.pop_back();
+            arr.insert(arr.begin(),l);
+            
+            int d=arr.size()-k;
+            arr.erase(arr.begin()+d);
+        }
+        return arr[0];
+    }
+};
