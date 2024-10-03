@@ -1,0 +1,32 @@
+class Solution {
+public:
+    int minSubarray(vector<int>& nums, int p) {
+        int n = nums.size();
+        long tsum = accumulate(nums.begin(), nums.end(), 0L);
+        int target = tsum % p;
+        
+        // If the total sum is already divisible by p
+        if (target == 0) return 0;
+
+        unordered_map<int, int> pre;
+        pre[0] = -1;
+        int csum = 0;
+        int min_len = INT_MAX;
+
+        for (int i = 0; i < n; i++) {
+            csum = (csum + nums[i]) % p;
+
+            // Find if there's a prefix sum that makes the current sum mod `p` equal to `target`
+            int t = (csum - target + p) % p;
+            if (pre.find(t) != pre.end()) {
+                min_len = min(min_len, i - pre[t]);
+            }
+
+            // Store the current cumulative sum mod `p`
+            pre[csum] = i;
+        }
+
+        // If we cannot find any valid subarray, return -1
+        return min_len == INT_MAX || min_len == n ? -1 : min_len;
+    }
+};
