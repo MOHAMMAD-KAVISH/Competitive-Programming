@@ -1,0 +1,20 @@
+vector<int> findMajority(vector<int>& nums) {
+        // Your code goes here.
+        int n=nums.size();
+        int sz=n/3;
+        unordered_map<int,int>mp;
+        for(int s:nums){
+            mp[s]++;
+        }
+        vector<int>res;
+        for(auto m:mp){
+            if(m.second>sz){
+                res.push_back(m.first); 
+            }
+        }
+        if(res.empty()){
+            return{-1};
+        }
+        sort(res.begin(),res.end());
+        return res;
+    }
