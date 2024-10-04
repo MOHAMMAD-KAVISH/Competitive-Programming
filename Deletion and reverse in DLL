@@ -1,0 +1,78 @@
+struct Node {
+    int data;
+    Node* next;
+};
+
+// Function to delete the given key from the circular linked list
+Node* deleteNode(Node* head, int key) {
+    if (!head) return nullptr;
+
+    Node *prev = nullptr, *curr = head;
+
+    // Handling the case where the list contains only one node
+    if (head->data == key && head->next == head) {
+        delete head;
+        return nullptr;
+    }
+
+    // Traverse to find the node with the key
+    while (curr->next != head) {
+        if (curr->data == key) break;
+        prev = curr;
+        curr = curr->next;
+    }
+
+    // Check for the case where the key is in the last node
+    if (curr->next == head && curr->data != key) {
+        // Key not found in the list, return head as is
+        return head;
+    }
+
+    // If the key is found
+    if (curr->data == key) {
+        // If the key is at the head
+        if (curr == head) {
+            // Move the head pointer to the next node
+            Node* temp = head;
+            while (temp->next != head) temp = temp->next;
+            temp->next = head->next;
+            head = head->next;
+            delete curr;
+        }
+        // If the key is somewhere else
+        else {
+            prev->next = curr->next;
+            delete curr;
+        }
+    }
+
+    return head;
+}
+
+// Function to reverse the circular linked list
+Node* reverseList(Node* head) {
+    if (!head || head->next == head) return head; // Single node or empty list case
+
+    Node *prev = nullptr, *curr = head, *next = nullptr;
+    Node* tail = head;
+
+    // Traverse the list to reverse pointers
+    do {
+        next = curr->next;
+        curr->next = prev;
+        prev = curr;
+        curr = next;
+    } while (curr != head);
+
+    // Fix the circular part of the reversed list
+    head->next = prev; // Previous head is now the last node, pointing to the new head
+    return prev;       // The new head of the reversed list
+}
+
+// Main function to delete the node and then reverse the circular linked list
+Node* deleteAndReverse(Node* head, int key) {
+    head = deleteNode(head, key);  // Step 1: Delete the key node
+    if (!head) return nullptr;     // If the list becomes empty after deletion
+
+    return reverseList(head);      // Step 2: Reverse the list
+}
