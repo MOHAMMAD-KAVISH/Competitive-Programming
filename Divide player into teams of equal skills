@@ -1,0 +1,23 @@
+class Solution {
+public:
+    long long dividePlayers(vector<int>& skill) {
+        // Sort the skill array to try and form valid teams
+        sort(skill.begin(), skill.end());
+        
+        int n = skill.size();
+        long long sum = skill[0] + skill[n - 1];  // The expected total skill sum for each team
+        long long chemistry_sum = 0;
+        
+        // Try forming teams by pairing the smallest and largest elements
+        for (int i = 0; i < n / 2; ++i) {
+            if (skill[i] + skill[n - 1 - i] != sum) {
+                // If the skill sum of any pair is not equal to the expected sum, return -1
+                return -1;
+            }
+            // Add the chemistry (product of skills) of the current team
+            chemistry_sum += 1LL * skill[i] * skill[n - 1 - i];
+        }
+        
+        return chemistry_sum;  // Return the total chemistry sum
+    }
+};
