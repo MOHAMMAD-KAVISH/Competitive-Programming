@@ -1,0 +1,41 @@
+class Solution {
+public:
+    bool areSentencesSimilar(string sentence1, string sentence2) {
+        // Split the sentences into words
+        vector<string> words1 = split(sentence1);
+        vector<string> words2 = split(sentence2);
+        
+        // If sentence1 is shorter, swap so that words1 is the longer or equal sentence
+        if (words1.size() < words2.size()) {
+            swap(words1, words2);
+        }
+
+        int start = 0;
+        int end = 0;
+        
+        // Match from the start of the sentence
+        while (start < words2.size() && words1[start] == words2[start]) {
+            start++;
+        }
+        
+        // Match from the end of the sentence
+        while (end < words2.size() && words1[words1.size() - 1 - end] == words2[words2.size() - 1 - end]) {
+            end++;
+        }
+
+        // Check if the remaining middle words of words2 can be inserted into words1
+        return start + end >= words2.size();
+    }
+    
+private:
+    // Helper function to split a sentence into words
+    vector<string> split(const string& sentence) {
+        vector<string> words;
+        stringstream ss(sentence);
+        string word;
+        while (ss >> word) {
+            words.push_back(word);
+        }
+        return words;
+    }
+};
