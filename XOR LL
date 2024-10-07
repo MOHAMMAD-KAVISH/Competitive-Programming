@@ -1,0 +1,61 @@
+/*
+Structure of linked list is as
+struct Node
+{
+    int data;
+    struct Node* npx;
+
+    Node(int x){
+        data = x;
+        npx = NULL;
+    }
+};
+
+Utility function to get XOR of two Struct Node pointer
+use this function to get XOR of two pointers
+struct Node* XOR (struct Node *a, struct Node *b)
+{
+    return (struct Node*) ((uintptr_t) (a) ^ (uintptr_t) (b));
+}
+*/
+
+// function to insert the data to the front of the list
+struct Node *insert(struct Node *head, int data) {
+    // Allocate new node
+    struct Node* newNode = new Node(data);
+    
+    // New node's npx will be XOR of NULL and head (as it's inserted at front)
+    newNode->npx = XOR(NULL, head);
+
+    // If the list is not empty, update the npx of the current head node
+    if (head != NULL) {
+        // Update the current head's npx to XOR its previous npx with newNode
+        head->npx = XOR(newNode, XOR(NULL, head->npx));
+    }
+
+    // Move head to the new node
+    return newNode;
+}
+
+// function to get the list in forward direction
+vector<int> getList(struct Node *head) {
+    vector<int> result;
+    struct Node* curr = head;
+    struct Node* prev = NULL;
+    struct Node* next;
+
+    // Traverse the list
+    while (curr != NULL) {
+        // Add the current node's data to the result
+        result.push_back(curr->data);
+
+        // Compute the address of the next node
+        next = XOR(prev, curr->npx);
+
+        // Move prev and curr one step forward
+        prev = curr;
+        curr = next;
+    }
+    
+    return result;
+}
