@@ -1,0 +1,19 @@
+class Solution {
+public:
+    int minSwaps(string s) {
+        ios_base::sync_with_stdio(0);
+        cin.tie(0);
+        cout.tie(0);
+
+        int bal=0,res=0;
+        for(char c:s){
+            if(c=='['){
+                bal--;
+            }else{
+                bal++;
+            }
+            res=max(bal,res);
+        }
+        return (res+1)/2;
+    }
+};
