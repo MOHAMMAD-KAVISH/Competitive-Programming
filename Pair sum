@@ -1,0 +1,12 @@
+int pairsum(vector<int> &arr) {
+    int f = 0, sec = 0;
+    for (int a : arr) {
+        if (a > f) {
+            sec = f; // Update sec to the old value of f
+            f = a;   // Update f to the new maximum
+        } else if (a > sec) {
+            sec = a; // Update sec if a is greater than sec but less than f
+        }
+    }
+    return f + sec;
+}
