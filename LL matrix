@@ -1,0 +1,86 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+
+// Define the Node structure
+struct Node {
+    int data;
+    Node* right;
+    Node* down;
+
+    Node(int x) : data(x), right(nullptr), down(nullptr) {}
+};
+
+// Function to construct the 2D linked list from the matrix
+Node* construct2DLinkedList(const vector<vector<int>>& mat) {
+    int n = mat.size();
+    
+    if (n == 0) return nullptr;
+
+    // Create a dummy vector to store the head of each row
+    vector<Node*> row_heads(n, nullptr);
+
+    Node* top_left = nullptr;  // top-left corner of the 2D linked list
+
+    // Loop through the matrix and construct the linked list
+    for (int i = 0; i < n; ++i) {
+        Node* prev = nullptr;  // Pointer to track the previous node in the row
+
+        for (int j = 0; j < n; ++j) {
+            Node* new_node = new Node(mat[i][j]);
+
+            // Link the node to the left (if there was a previous node)
+            if (prev) {
+                prev->right = new_node;
+            }
+
+            // Link the node to the node above it (if we're not in the first row)
+            if (i > 0) {
+                row_heads[i - 1]->down = new_node;
+                row_heads[i - 1] = row_heads[i - 1]->right;
+            }
+
+            // Update row_heads for the first element in the row
+            if (j == 0) {
+                row_heads[i] = new_node;
+            }
+
+            // Update prev to the current node
+            prev = new_node;
+
+            // Set the top-left node if we're at (0,0)
+            if (i == 0 && j == 0) {
+                top_left = new_node;
+            }
+        }
+    }
+
+    return top_left;  // Return the head of the 2D linked list
+}
+
+// Function to print the linked list (for debugging purposes)
+void print2DLinkedList(Node* head) {
+    Node* row = head;
+    while (row) {
+        Node* col = row;
+        while (col) {
+            cout << col->data << " ";
+            col = col->right;
+        }
+        cout << endl;
+        row = row->down;
+    }
+}
+
+int main() {
+    vector<vector<int>> mat = {
+        {1, 2, 3},
+        {4, 5, 6},
+        {7, 8, 9}
+    };
+
+    Node* head = construct2DLinkedList(mat);
+    print2DLinkedList(head);
+
+    return 0;
+}
