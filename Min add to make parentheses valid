@@ -1,0 +1,33 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+int minAddToMakeValid(string s) {
+    int open_needed = 0;  // Count of unmatched opening parentheses
+    int close_needed = 0; // Count of unmatched closing parentheses
+    
+    for (char c : s) {
+        if (c == '(') {
+            open_needed++;  // We need a closing parenthesis
+        } else if (c == ')') {
+            if (open_needed > 0) {
+                open_needed--;  // A closing parenthesis matched with an opening one
+            } else {
+                close_needed++;  // We need an additional opening parenthesis
+            }
+        }
+    }
+    
+    // Total moves is the sum of unmatched opening and closing parentheses
+    return open_needed + close_needed;
+}
+
+int main() {
+    string s1 = "())";
+    cout << "Minimum moves for \"" << s1 << "\": " << minAddToMakeValid(s1) << endl;  // Output: 1
+
+    string s2 = "(((";
+    cout << "Minimum moves for \"" << s2 << "\": " << minAddToMakeValid(s2) << endl;  // Output: 3
+
+    return 0;
+}
