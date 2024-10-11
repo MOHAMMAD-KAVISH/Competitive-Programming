@@ -1,0 +1,19 @@
+vector<int> rearrange( vector<int>& arr) {
+        // Code here
+        int n=arr.size();
+        for(int i=0;i<n;i++){
+            while(arr[i]!=i&&arr[i]!=-1){
+                int pos=arr[i];
+                if(arr[pos]==pos){
+                    break;
+                }
+                swap(arr[i],arr[pos]);
+            }
+        }
+        for(int i=0;i<n;i++){
+            if(arr[i]!=i){
+                arr[i]=-1;
+            }
+        }
+        return arr;
+    }
