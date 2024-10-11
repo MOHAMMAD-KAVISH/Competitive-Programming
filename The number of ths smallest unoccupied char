@@ -1,0 +1,58 @@
+class Solution {
+public:
+    int smallestChair(vector<vector<int>>& times, int targetFriend) {
+        ios_base::sync_with_stdio(false);
+        cin.tie(NULL);
+        cout.tie(NULL);
+        int n = times.size();
+    
+    // Step 1: Create a list of events
+    vector<pair<int, pair<int, int>>> events;  // (time, (friend_index, type)) type: 1 for arrival, -1 for leaving
+    
+    for (int i = 0; i < n; ++i) {
+        events.push_back({times[i][0], {i, 1}});  // Arrival of friend i
+        events.push_back({times[i][1], {i, -1}}); // Leaving of friend i
+    }
+    
+    // Step 2: Sort events by time. If two events happen at the same time, process leaving events first.
+    sort(events.begin(), events.end(), [](auto &a, auto &b) {
+        if (a.first == b.first)
+            return a.second.second < b.second.second; // Leaving events before arriving
+        return a.first < b.first;
+    });
+    
+    // Step 3: Priority queue (min-heap) to track available chairs
+    priority_queue<int, vector<int>, greater<int>> availableChairs;
+    for (int i = 0; i < n; ++i) {
+        availableChairs.push(i);  // Initially, all chairs from 0 to n-1 are available
+    }
+    
+    // Step 4: Map to track which chair each friend is sitting on
+    vector<int> friendToChair(n, -1);  // friendToChair[i] tells which chair friend i is sitting on
+    
+    // Step 5: Process events
+    for (auto &event : events) {
+        int time = event.first;
+        int friendIndex = event.second.first;
+        int eventType = event.second.second;
+        
+        if (eventType == 1) {
+            // Arrival event: Assign the smallest available chair
+            int chair = availableChairs.top();
+            availableChairs.pop();
+            friendToChair[friendIndex] = chair;
+            
+            // If this is the target friend, return the chair number
+            if (friendIndex == targetFriend) {
+                return chair;
+            }
+        } else {
+            // Leaving event: Free the chair
+            int chair = friendToChair[friendIndex];
+            availableChairs.push(chair);
+        }
+    }
+    
+    return -1;
+    }
+};
