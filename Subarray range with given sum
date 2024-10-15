@@ -1,0 +1,14 @@
+int subArraySum(vector<int>& arr, int tar) {
+        // Your code here
+        unordered_map<int,int>mp;
+        int pref=0,c=0;
+        mp[0]=1;
+        for(int a:arr){
+            pref+=a;
+            if(mp.find(pref-tar)!=mp.end()){
+                c+=mp[pref-tar];
+            }
+            mp[pref]++;
+        }
+        return c;
+    }
