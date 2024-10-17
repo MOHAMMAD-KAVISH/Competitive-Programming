@@ -1,0 +1,73 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+// Node structure for the linked list
+struct Node {
+    int data;
+    Node* next;
+    Node(int val) : data(val), next(nullptr) {}
+};
+
+// Function to perform alternating split
+vector<Node*> alternatingSplitList(Node* head) {
+    // Initialize two dummy nodes to help with list construction
+    Node* dummy1 = new Node(0); // For the first sublist
+    Node* dummy2 = new Node(0); // For the second sublist
+
+    Node* list1 = dummy1;  // Pointer to track first sublist
+    Node* list2 = dummy2;  // Pointer to track second sublist
+
+    bool toggle = true;  // This flag will decide which sublist to add the current node to
+
+    // Traverse the original list
+    while (head != nullptr) {
+        if (toggle) {
+            list1->next = head;  // Add the current node to the first sublist
+            list1 = list1->next; // Move the pointer forward
+        } else {
+            list2->next = head;  // Add the current node to the second sublist
+            list2 = list2->next; // Move the pointer forward
+        }
+        head = head->next;  // Move to the next node in the original list
+        toggle = !toggle;   // Alternate between lists
+    }
+
+    // Ensure the last nodes of both lists point to nullptr
+    list1->next = nullptr;
+    list2->next = nullptr;
+
+    // Return the two lists (skipping the dummy nodes)
+    return {dummy1->next, dummy2->next};
+}
+
+// Helper function to print a linked list
+void printList(Node* head) {
+    while (head != nullptr) {
+        cout << head->data << " ";
+        head = head->next;
+    }
+    cout << endl;
+}
+
+// Main function to test the alternating split
+int main() {
+    // Creating the linked list: 0 -> 1 -> 0 -> 1 -> 0 -> 1
+    Node* head = new Node(0);
+    head->next = new Node(1);
+    head->next->next = new Node(0);
+    head->next->next->next = new Node(1);
+    head->next->next->next->next = new Node(0);
+    head->next->next->next->next->next = new Node(1);
+
+    // Split the linked list into two alternating lists
+    vector<Node*> result = alternatingSplitList(head);
+
+    // Print the two sublists
+    cout << "First List: ";
+    printList(result[0]);
+
+    cout << "Second List: ";
+    printList(result[1]);
+
+    return 0;
+}
