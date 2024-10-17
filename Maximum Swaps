@@ -1,0 +1,26 @@
+class Solution {
+public:
+    int maximumSwap(int num) {
+        string s = to_string(num); // Convert the number to string for easy manipulation
+        int n = s.size(); // Get the length of the number string
+        vector<int> lastin(10, -1); // Initialize an array to store the last index of each digit
+
+        // Step 1: Record the last occurrence of each digit in the number
+        for (int i = 0; i < n; i++) {
+            lastin[s[i] - '0'] = i;
+        }
+
+        // Step 2: Find the first digit that can be swapped to get a larger value
+        for (int i = 0; i < n; i++) {
+            // Check for a larger digit from 9 down to (s[i] - '0' + 1)
+            for (int d = 9; d > s[i] - '0'; d--) {
+                if (lastin[d] > i) { // If a larger digit appears later
+                    swap(s[i], s[lastin[d]]); // Swap the two digits
+                    return stoi(s); // Convert the modified string back to an integer
+                }
+            }
+        }
+
+        return num; // If no swap improves the value, return the original number
+    }
+};
