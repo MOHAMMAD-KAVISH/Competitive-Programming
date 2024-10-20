@@ -1,0 +1,96 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+// Doubly Linked List Node structure
+struct DLLNode {
+    int data;
+    DLLNode* next;
+    DLLNode* prev;
+    DLLNode(int val) : data(val), next(nullptr), prev(nullptr) {}
+};
+
+// Function to sort a k-sorted doubly linked list using Min-Heap
+DLLNode* sortAKSortedDLL(DLLNode* head, int k) {
+    if (!head) return nullptr;
+
+    // Min-Heap to store the next k+1 nodes (using data as the key)
+    priority_queue<int, vector<int>, greater<int>> minHeap;
+
+    // Temporary pointer to traverse the list
+    DLLNode* current = head;
+
+    // Step 1: Insert first (k+1) elements into the Min-Heap
+    for (int i = 0; i <= k && current; ++i) {
+        minHeap.push(current->data);
+        current = current->next;
+    }
+
+    // Step 2: Start from the head and replace elements in sorted order
+    DLLNode* newHead = head;
+    DLLNode* sortedTail = nullptr;
+
+    while (!minHeap.empty()) {
+        // Get the smallest element from the heap
+        int smallest = minHeap.top();
+        minHeap.pop();
+
+        // Place it at the current position
+        newHead->data = smallest;
+        sortedTail = newHead;  // Track the last sorted node
+        newHead = newHead->next;
+
+        // If there are remaining nodes in the original list, add them to the heap
+        if (current) {
+            minHeap.push(current->data);
+            current = current->next;
+        }
+    }
+
+    return head;
+}
+
+// Helper function to append a new node at the end of the list
+void append(DLLNode*& head, int data) {
+    DLLNode* newNode = new DLLNode(data);
+    if (!head) {
+        head = newNode;
+        return;
+    }
+    DLLNode* temp = head;
+    while (temp->next) temp = temp->next;
+    temp->next = newNode;
+    newNode->prev = temp;
+}
+
+// Helper function to print the doubly linked list
+void printList(DLLNode* head) {
+    while (head) {
+        cout << head->data;
+        if (head->next) cout << " <-> ";
+        head = head->next;
+    }
+    cout << endl;
+}
+
+// Main function to test the solution
+int main() {
+    DLLNode* head = nullptr;
+    append(head, 3);
+    append(head, 2);
+    append(head, 1);
+    append(head, 5);
+    append(head, 6);
+    append(head, 4);
+
+    int k = 2;
+
+    cout << "Original List:\n";
+    printList(head);
+
+    head = sortAKSortedDLL(head, k);
+
+    cout << "\nSorted List:\n";
+    printList(head);
+
+    return 0;
+}
