@@ -1,0 +1,31 @@
+class Solution {
+public:
+    bool parseBoolExpr(string expression) {
+        stack<char>st;
+        for(char ch:expression){
+            if(ch==')'){
+                bool tr=false,fa=false;
+                while(st.top()!='('){
+                    char c=st.top();
+                    st.pop();
+                    if(c=='t') tr=true;
+                    else if(c=='f') fa=true;
+                }
+                st.pop();
+
+                char op=st.top();
+                st.pop();
+                if(op=='&'){
+                    st.push(fa?'f':'t');
+                }else if(op=='|'){
+                    st.push(tr?'t':'f');
+                }else{
+                    st.push(tr?'f':'t');
+                }
+            }else if(ch!=','&&ch!=' '){
+                st.push(ch);
+            }
+        }
+        return st.top()=='t';
+    }
+};
