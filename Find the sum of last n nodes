@@ -1,0 +1,62 @@
+#include <iostream>
+using namespace std;
+
+// Definition for singly-linked list.
+struct ListNode {
+    int data;
+    ListNode* next;
+    ListNode(int x) : data(x), next(nullptr) {}
+};
+
+class Solution {
+public:
+    int sumOfLastNNodes(ListNode* head, int n) {
+        if (!head) return 0;
+
+        ListNode* first = head;
+        ListNode* second = head;
+
+        // Move the 'first' pointer n steps ahead
+        for (int i = 0; i < n; ++i) {
+            first = first->next;
+        }
+
+        // Move both pointers until 'first' reaches the end
+        while (first) {
+            first = first->next;
+            second = second->next;
+        }
+
+        // Calculate the sum of the last n nodes
+        int sum = 0;
+        while (second) {
+            sum += second->data;
+            second = second->next;
+        }
+
+        return sum;
+    }
+};
+
+// Helper function to create a linked list from an array
+ListNode* createList(int arr[], int size) {
+    ListNode* head = new ListNode(arr[0]);
+    ListNode* current = head;
+    for (int i = 1; i < size; ++i) {
+        current->next = new ListNode(arr[i]);
+        current = current->next;
+    }
+    return head;
+}
+
+// Main function to test the solution
+int main() {
+    int arr[] = {5, 9, 6, 3, 4, 10};
+    int n = 3;
+    ListNode* head = createList(arr, 6);
+
+    Solution sol;
+    cout << "Sum of last " << n << " nodes: " << sol.sumOfLastNNodes(head, n) << endl;
+
+    return 0;
+}
