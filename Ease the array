@@ -1,0 +1,48 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+
+vector<int> modifyAndRearrangeArray(vector<int>& arr) {
+    int n = arr.size();
+
+    // Step 1: Modify the array by doubling equal adjacent numbers.
+    for (int i = 0; i < n - 1; ++i) {
+        if (arr[i] != 0 && arr[i] == arr[i + 1]) {
+            arr[i] *= 2;
+            arr[i + 1] = 0;
+        }
+    }
+
+    // Step 2: Shift non-zero elements to the front.
+    int index = 0;  // Pointer to place the next non-zero element.
+    for (int i = 0; i < n; ++i) {
+        if (arr[i] != 0) {
+            arr[index++] = arr[i];
+        }
+    }
+
+    // Step 3: Fill the rest of the array with 0s.
+    while (index < n) {
+        arr[index++] = 0;
+    }
+
+    return arr;
+}
+
+int main() {
+    vector<int> arr1 = {2, 2, 0, 4, 0, 8};
+    vector<int> arr2 = {0, 2, 2, 2, 0, 6, 6, 0, 0, 8};
+
+    vector<int> result1 = modifyAndRearrangeArray(arr1);
+    vector<int> result2 = modifyAndRearrangeArray(arr2);
+
+    cout << "Modified Array 1: ";
+    for (int num : result1) cout << num << " ";
+    cout << endl;
+
+    cout << "Modified Array 2: ";
+    for (int num : result2) cout << num << " ";
+    cout << endl;
+
+    return 0;
+}
