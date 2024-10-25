@@ -1,0 +1,15 @@
+class Solution {
+public:
+    vector<string> removeSubfolders(vector<string>& folder) {
+        sort(folder.begin(),folder.end());
+        string ans="";
+        vector<string>res;
+        for(auto& f:folder){
+            if(ans.empty()||f.substr(0,ans.size())!=ans||f[ans.size()]!='/'){
+                res.push_back(f);
+                ans=f;
+            }
+        }
+        return res;
+    }
+};
