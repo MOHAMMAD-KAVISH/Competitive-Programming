@@ -1,0 +1,37 @@
+class Solution {
+public:
+    int m, n;
+    vector<vector<int>> directions = {{-1, 1}, {0, 1}, {1, 1}};
+    vector<vector<int>> memo;
+
+    // Corrected DFS function that returns an int.
+    int dfs(int i, int j, vector<vector<int>>& grid) {
+        if (memo[i][j] != -1) return memo[i][j];
+
+        int moves = 0;
+        // Explore all three possible directions.
+        for (auto& d : directions) {
+            int nr = i + d[0];
+            int nc = j + d[1];
+
+            // Check bounds and ensure the next cell has a strictly greater value.
+            if (nr >= 0 && nr < m && nc >= 0 && nc < n && grid[nr][nc] > grid[i][j]) {
+                moves = max(moves, 1 + dfs(nr, nc, grid));
+            }
+        }
+        return memo[i][j] = moves;
+    }
+
+    int maxMoves(vector<vector<int>>& grid) {
+        m = grid.size();
+        n = grid[0].size();
+        memo = vector<vector<int>>(m, vector<int>(n, -1));
+
+        int res = 0;
+        // Start DFS from each cell in the first column.
+        for (int i = 0; i < m; ++i) {
+            res = max(res, dfs(i, 0, grid));
+        }
+        return res;
+    }
+};
