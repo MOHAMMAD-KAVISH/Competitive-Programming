@@ -1,0 +1,22 @@
+int countPairsWithDiffK(vector<int>& arr, int k) {
+        // code here
+        unordered_map<int, int> freq;
+    int count = 0;
+
+    // Build the frequency map
+    for (int a : arr) {
+        freq[a]++;
+    }
+
+    // Iterate over the map to check for valid pairs
+    for (auto it = freq.begin(); it != freq.end(); ++it) {
+        int num = it->first;
+        int occurrences = it->second;
+
+        if (freq.find(num + k) != freq.end()) {
+            count += occurrences * freq[num + k];
+        }
+    }
+
+    return count;
+    }
