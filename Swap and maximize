@@ -1,0 +1,26 @@
+class Solution {
+  public:
+    long long maxSum(vector<int>& arr) {
+        // code here
+        int n=arr.size();
+        sort(arr.begin(),arr.end());
+        int l=0,r=n-1;
+        vector<int>v;
+        while(l<=r){
+            if(l==r){
+                v.push_back(arr[l]);
+            }else{
+                v.push_back(arr[l]);
+                v.push_back(arr[r]);
+            }
+            l++;
+            r--;
+        }
+        long long sum=0;
+        for(int i=1;i<n;i++){
+            sum+=abs(v[i]-v[i-1]);
+        }
+        sum+=abs(v[n-1]-v[0]);
+        return sum;
+    }
+};
