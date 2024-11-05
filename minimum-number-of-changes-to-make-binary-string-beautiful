@@ -1,0 +1,18 @@
+class Solution {
+public:
+    int minChanges(string s) {
+        int changes = 0; // To count the number of changes required
+
+        // Iterate through the string in pairs
+        for (int i = 0; i < s.length(); i += 2) {
+            // Compare pairs
+            if (s[i] != s[i + 1]) {
+                changes++; // Increment change count if the characters are different
+            }
+        }
+
+        // Each change will fix one pair, but since each pair should be consistent,
+        // We need to convert the number of changes to the nearest even number.
+        return changes; // Return the total number of changes
+    }
+};
