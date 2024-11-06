@@ -1,0 +1,33 @@
+class TreeNode {
+public:
+    int val;
+    TreeNode* left;
+    TreeNode* right;
+    TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+};
+
+class Solution {
+public:
+    int sumNumbers(TreeNode* root) {
+        return dfs(root, 0);
+    }
+
+    int dfs(TreeNode* node, int currentSum) {
+        if (!node) return 0;
+
+        // Update the current path sum
+        currentSum = currentSum * 10 + node->val;
+
+        // If it's a leaf node, return the current path sum
+        if (!node->left && !node->right) {
+            return currentSum;
+        }
+
+        // Recursively calculate the sum for left and right children
+        int leftSum = dfs(node->left, currentSum);
+        int rightSum = dfs(node->right, currentSum);
+
+        // Return the total sum from both subtrees
+        return leftSum + rightSum;
+    }
+};
