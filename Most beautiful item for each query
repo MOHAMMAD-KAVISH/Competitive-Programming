@@ -1,0 +1,42 @@
+class Solution {
+public:
+    vector<int> maximumBeauty(vector<vector<int>>& items, vector<int>& queries) {
+        sort(items.begin(), items.end());
+        
+        // Step 2: Prepare a list of prices and max beauties up to each price
+        vector<int> prices, max_beauty;
+        int current_max_beauty = 0;
+        for (const auto& item : items) {
+            int price = item[0];
+            int beauty = item[1];
+            current_max_beauty = max(current_max_beauty, beauty);
+            // Avoid duplicate prices in prices vector
+            if (prices.empty() || prices.back() != price) {
+                prices.push_back(price);
+                max_beauty.push_back(current_max_beauty);
+            } else {
+                max_beauty.back() = current_max_beauty;
+            }
+        }
+
+        // Step 3: Process each query
+        vector<int> result(queries.size());
+        vector<pair<int, int>> query_with_index;
+        for (int i = 0; i < queries.size(); ++i) {
+            query_with_index.push_back({queries[i], i});
+        }
+        sort(query_with_index.begin(), query_with_index.end());
+        
+        for (const auto& [query, index] : query_with_index) {
+            // Use binary search to find the largest price <= query
+            auto it = upper_bound(prices.begin(), prices.end(), query);
+            if (it == prices.begin()) {
+                result[index] = 0;  // No items can be bought within budget
+            } else {
+                result[index] = max_beauty[it - prices.begin() - 1];
+            }
+        }
+
+        return result;
+    }
+};
