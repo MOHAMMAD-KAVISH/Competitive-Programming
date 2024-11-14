@@ -1,0 +1,27 @@
+class Solution {
+public:
+    bool can(int m,int n,vector<int>&quant){
+        int stores=0;
+        for(int q:quant){
+            stores+=(q+m-1)/m;
+            if(stores>n){
+                return false;
+            }
+        }
+        return true;
+    }
+    int minimizedMaximum(int n, vector<int>& quantities) {
+        int l=1,r=*max_element(quantities.begin(),quantities.end());
+        int ans=r;
+        while(l<=r){
+            int m=(l+r)/2;
+            if(can(m,n,quantities)){
+                ans=m;
+                r=m-1;
+            }else{
+                l=m+1;
+            }
+        }
+        return ans;
+    }
+};
