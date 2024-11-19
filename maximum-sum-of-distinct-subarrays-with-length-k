@@ -1,0 +1,28 @@
+class Solution {
+public:
+    long long maximumSubarraySum(vector<int>& nums, int k) {
+        int n = nums.size();
+    unordered_set<int> elements; // To track distinct elements
+    long long maxSum = 0, currentSum = 0, start = 0;
+
+    for (int end = 0; end < n; ++end) {
+        // Slide the window and maintain distinct elements
+        while (elements.count(nums[end]) || (end - start + 1) > k) {
+            elements.erase(nums[start]);
+            currentSum -= nums[start];
+            start++;
+        }
+
+        // Add the current element to the window
+        elements.insert(nums[end]);
+        currentSum += nums[end];
+
+        // If the window size is exactly k, check the maximum sum
+        if (end - start + 1 == k) {
+            maxSum = max(maxSum, currentSum);
+        }
+        
+    }
+    return maxSum;
+    }
+};
