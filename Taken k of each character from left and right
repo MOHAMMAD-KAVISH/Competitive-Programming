@@ -1,0 +1,25 @@
+class Solution {
+public:
+    int takeCharacters(string s, int k) {
+        unordered_map<char,int>mp;
+        for(char c:s){
+            mp[c]++;
+        }
+        if(mp['a']<k||mp['b']<k||mp['c']<k){
+            return -1;
+        }
+        int n=s.length();
+        int left=0,res=n;
+        unordered_map<char,int>win;
+        for(int right=0;right<n;right++){
+            win[s[right]]++;
+
+            while(win['a']<=mp['a']-k&&win['b']<=mp['b']-k&&win['c']<=mp['c']-k){
+                res=min(res,right-left+1);
+                win[s[left]]++;
+                left++;
+            }
+        }
+        return res;
+    }
+};
